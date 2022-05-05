@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page RESEAUX</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>
+Plan
+</h1>
+
+
+
+<div>
+<ul>
+                        <li>Introduction</li>
+                        <li>Qu'est-ce que l'Active Directory ?</li>
+                        <li>Notion de domaine et de contrôleur de domaine</li>
+                        <li>Les types d'objets principaux</li>
+                        <li>Présentation de Samba</li>
+   			<li>Fonctionnement des réseaux Microsoft</li>
+			<li>Netbios fonctionne sur le principe de la diffusion</li>		
+                </ul>
+
+</div>
+
+<h1>INTRODUCTION : </h1>
+La suite de logiciels Samba est une ré-implémentation en logiciels libres des protocoles réseau clients et serveurs de Microsoft. La notion de liberté est particulièrement chère aux développeurs du projet, car il a été le premier projet d'envergure à adopter cette licence en passant Samba 3.2 sous GPL v3 dès 2007. Jusqu'ici, Samba 3 était capable de couvrir l'ensemble des fonctionnalités d'un réseau de type NT4 avec un certain nombre d'améliorations, comme la possibilité d'utiliser OpenLDAP comme backend de stockage ou encore un fonctionnement en cluster, bien que ces fonctionnalités soient relativement complexes à mettre en œuvre. Samba 3 gère notamment l'authentification en mode serveur maître/esclave (PDC/BDC pour Primary Domain Controler et Backup Domain Controler) et la fourniture des services de partage de fichiers et d'impression.
+
+La compatibilité avec l'Active Directory de Microsoft est cependant limitée à la possibilité de joindre un domaine - au sens domaine de sécurité - et il devenait de plus en plus pressant de rattraper le retard accumulé. En effet, Active Directory est sorti en 2000, Samba 4 a été démarré en 2003 et bien que la version finale commence à pointer le bout de son nez, il aura fallu presque dix ans pour achever le travail titanesque que représente la ré-implémentation de tous les protocoles en jeu.<br>
+
+
+<h1> QU'EST-CE QUE L'ACTIVE DIRECTORY</h1>
+<p>L'Active Directory consiste en une intégration particulièrement poussée d'un certain nombre de protocoles plus ou moins standardisés dans le but de fournir des services d'authentification, de configuration et d'administration (déploiement de logiciels et de configuration) centralisés. Fonctionnellement, c'est une évolution de ce qu'il était déjà possible de faire auparavant, car les principaux objets stockés dans l'Active Directory sont des utilisateurs, des groupes et des ordinateurs. Techniquement, l'évolution apportée par la migration vers de nouveaux protocoles, permet de partitionner les ressources de manière sécurisée, logique, le tout avec un passage à l'échelle plus important, car stocké dans une base de données répliquée, la NTDS pour NT Directory Services.</p>
+
+<h1>NOTION DE DOMAINE ET DE CONTRôLEUR DE DOMAINE</h1>
+<p>Chaque serveur hébergeant l'Active Directory ou une partition de celui-ci est appelé un contrôleur de domaine ou DC. Le nom de domaine DNS est par défaut utilisé pour le nommage du domaine Active Directory. Par exemple, si votre domaine DNS interne est reseau.local, alors l'arborescence LDAP de l'Active Directory sera DC=reseau,DC=local. Tout comme le DNS, il est possible de créer un ou plusieurs domaine(s) et sous-domaine(s) au sein de l'AD. L'ensemble des domaines et sous-domaines regroupés au sein d'une même forêt partagent le même schéma Active Directory (et donc LDAP), ainsi que des relations d'approbation entre les domaines. Par défaut, la création d'un domaine ou d'un sous-domaine entraîne la création d'une relation d'approbation d'authentification transitive et bidirectionnelle.
+
+La fonctionnalité « Catalogue Global » au sein d'un contrôleur de domaine permet à celui-ci de contenir une vue partielle des objets des autres domaines, afin de permettre la recherche d'objets situés dans d'autres domaines plus rapidement sans nécessiter une réplication complète du contenu des différents domaines. Contrairement à un réseau NT4/Samba3, chaque contrôleur de domaine est un contrôleur de domaine maître, il n'y a donc plus de notion de contrôleur de domaine secondaire. A noter qu'avec Windows 2008 Server, Microsoft a introduit la notion de contrôleur de domaine en lecture seule. Il assure l'ensemble des fonctions permises par un contrôleur de domaine, à l'exception du fait qu'il est exclu de la réplication multi-maître et ne contient, comme son nom l'indique, qu'une copie en lecture du domaine. Ce type de contrôleur de domaine est en cours de prise en charge par l'équipe Samba.Cependant, afin d'assurer l'unicité de certaines informations au sein du domaine ou de la forêt, certaines fonctionnalités sont uniques :</p>
+<!-- je ...--->
+<div>
+<ul>
+                        <li>Le rôle d'émulateur de Contrôleur de Domaine Principal, unique au sein d'un domaine, assure la compatibilité descendante pour l'authentification de type NT4.</li>
+                        <li>Le rôle Maître d'IDentifiants Relatifs, unique au sein d'un domaine, assure l'unicité des identifiants alloués aux autres contrôleurs de domaine (l'équivalent des UID/GID Unix). « Relatif » vient du fait que chaque objet est identifié par un identifiant unique (le SID), qui est la concaténation de l'identifiant de domaine et du RID de l'objet.</li>
+                        <li>Le rôle Maître d'Infrastructure, assure la consistance des SID/GUID au sein des objets du domaine. En pratique, il gère surtout la consistance de la résolution de nom des objets dans les groupes de l'AD et le déplacement des objets entre domaines.</li>
+                        <li>Le rôle Maître de Schéma, unique au sein d'une forêt. Gère la consistance et la réplication du schéma au sein de la forêt.</li>
+                        <li>Le rôle Maître de Nommage de Domaine, gère l'unicité des noms de domaines AD lors de l'ajout ou la suppression de ceux-ci.</li>
+
+
+                </ul>
+</div>
+<h1>LES TYPES  D'OBJETS PRINCIPAUX </h1>
+<p>Les objets de l'Active Directory sont stockés dans un annuaire compatible LDAP. Il est donc interrogeable naturellement via les ports LDAP (389/TCP), LDAPS (636/TCP), ainsi qu'un port spécial, le port catalogue global (3268/TCP). Ce port permet de requêter en LDAP un contrôleur de domaine pour des objets se situant sur l'ensemble de la forêt. L'Active Directory ayant pour but premier la gestion de l'authentification, des autorisations et du contrôle d'accès, les types d'objets principaux sont donc tout à fait classiques dans ce type de configuration. On va donc retrouver :</p>
+<div>
+<ul>
+                        <li>Les unités d'organisation, qui sont des conteneurs permettant de hiérarchiser les autres objets que l'on va retrouver. Elles sont utilisées pour classer structurellement les objets en fonction de leur rôle au sein d'une organisation (services, sites, etc.), soit pour affecter des droits. Bien entendu, ces deux rôles principaux ne sont pas mutuellement exclusifs.</li>
+                        <li>Les comptes utilisateurs.</li>
+                        <li>Les comptes d'ordinateur, permettant tout comme au niveau utilisateur d'auditer et d'authentifier l'accès aux ressources du domaine au niveau ordinateur.</li>
+                        <li>Les groupes. Il existe trois étendues de groupes : locale, globale et universelle, permettant d'affecter des autorisations respectivement pour uniquement le domaine local, tout domaine ou sous-domaine, ou toute la forêt. Deux types de groupes existent, les groupes de sécurité pour l'affectation d'autorisations et les groupes de distribution, qui servent surtout pour les applications de messagerie. Notez que contrairement aux groupes POSIX, l'Active Directory prend en charge les groupes incluant d'autres groupes.
+</li>
+
+
+                </ul>
+	</div>
+
+<h1>PRÉSENTATION DE SAMBA </h1>
+<p>Le projet SAMBA est une application réseau permettant des échanges entre un serveur Linux et des stations sous :</p>
+<div>
+<ul>
+                        <li>partage de fichiers et de répertoires</li>
+                        <li>partage d'imprimantes</li>
+                        <li>respect des comptes utilisateurs</li>
+                        <li>gestion des permissions d'accès.</li>
+                       
+                </ul>
+</div>
+
+<h1>FONCTIONNEMENT DES RÉSEAUX MICROSOFT</h1>
+<div>
+<ul>
+                        <li>Pour comprendre le fonctionnement de samba, il faut connaître les bases
+des réseaux Windows </li>
+                        <li>NetBIOS est à la base de tout le fonctionnement d'un réseau Microsoft. </li>
+                        <li>Nommage des machines </li>
+                        <li> Gestion et nommage des groupes de travail ou des domaines.</li>
+		        <li>Identification d'un serveur comme contrôleur de domaine ou comme
+simple station </li>
+		        <li>Voisinage réseau. </li>
+			<li> Il a été fortement critiqué pour la charge induite sur les réseaux, mais
+c'est aussi un système puissant et fonctionnel dès lors qu'il est paramétré
+avec soin sur un système stable et bien protégé. </li>
+			<li>NetBIOS, c'est le système de nommage des réseaux SMB (réseaux MS).
+On peut le comparer grossièrement à DNS pour le nommage internet.</li>
+	<li>Pour identifier les éléments des réseaux Microsoft on utilise
+NetBIOS. Sans NetBIOS, pas de partage de fichiers et
+d'imprimantes, pas de Samba.</li>
+	<li>Sous Windows, il faut avoir activé soit le client pour les réseaux
+Microsoft (qui permet d'inscrire la station dans un domaine), soit
+le partage de fichiers et d'imprimantes (qui permet de partager
+des ressources au sein d'un groupe de travail).</li>
+<li>Ne pas installer ces services, revient à rendre la machine sourde
+et muette sur un réseau SMB TCP/IP.</li>
+<li>Sur une machine Unix, il faut installer Samba... avec Samba on
+installe donc les démons SMBD et NMBD.</li>	
+
+                </ul>
+</div>
+<h1>LA GESTION DES NOM NETBIOS </h1>
+
+<div>
+   <ul>
+<li>Permet d’identifier les éléments du réseau (et donc permetle partage de fichiers, imprimantes, ...) </li>
+<li>Equivalent au DNS pour Internet </li>
+<li> Ce n’est pas un protocole au sens OSI, c’est une méthode pour nommer des machines et une interface logicielle</li>
+<li> Tous les réseaux Microsoft sont basés dessus</li>
+<li> Permet de nommer des machines, des groupes de travail,des domaines, d’identifier des serveurs comme contrôleur de domaine, de faire fonctionner le voisinage réseau</li>
+<li>Un nom Netbios a 15 caractères maximum +1 </li>
+<li>Ce nom peut être le nom de la machine Windows (accessible via le voisinage réseau) ‫‏‬ ‫‏‬</li>
+<li>Ou le nom du groupe de travail</li>
+<li>Le 16ème caractère indique le type du nom et aussi la fonction de la machine (standard ou contrôleur) (commande nbtstat –a @iplocale)</li>
+ </ul>
+
+</div>
+
+<h1>NETBIOS FONCTIONNE SUR LE PRINCIPE DE LA DIFFUSION </h1>
+<div>
+<ul>
+                        <li>Le voisinage réseau, c'est l'ensemble des machines faisant tourner NetBIOS dans un même réseau IP </li>
+                        <li>Ne pas voir une machine dans le voisinage réseau,
+signifie trop souvent qu'elle est mal paramétrée.</li>
+                        <li>Pour rejoindre un domaine, une machine en fait la
+demande par diffusion</li>
+                        <li>De même pour la recherche d’un contrôleur de
+domaine</li>
+                </ul>
+
+</div>
+<img src="images/d.png" alter="image" width="1000px" height="1000px"><br>
+<h1>PROTOCOLE SMB UTILISE LE PORT : </h1>
+<div>
+<ul>
+                        <li> 137 en UDP (service de nom Netbios) </li>
+                        <li>138 en UDP (service datagram Netbios) ‫</li>
+                        <li>139 en TCP (service de session de Netbios) </li>
+                </ul>
+
+</div>
+<h1>OUVERTURE D'UNE SESSION SMB  </h1>
+<div>
+<ul>
+                        <li> SMB fonctionne en architecture client / serveur. En clair, le client (esclave) demande et le serveur (maître) renvoi une réponse. Il
+est important de savoir qu'une machine peut-être, à la fois,
+cliente et serveur.</li>
+                </ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

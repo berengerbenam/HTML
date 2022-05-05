@@ -1,0 +1,18 @@
+body {
+background-color: rgb(134, 120, 104) ;
+}
+#user_name {
+  background-color: white;
+  
+  border-radius: 8px;
+  position: absolute; left: 650px;
+  }
+#user_info {
+background-color: white;
+border-radius: 8px;
+position: absolute; top: 150px; left: 650px;
+}
+#lien_chat {
+background-color: white;
+border-radius: 8px;
+}

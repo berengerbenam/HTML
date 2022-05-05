@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GoTop</title>
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+
+    <div class="btn">
+      <!-- Importez votre icone 
+   <img src="arrow-up-solid.svg" class="icone">
+   -->
+      RTN
+    </div>
+  <marquee behavior="alternate">
+<font color="#0000CD" size="20"><b><h1> Administration Réseaux Sous Linux</h1></b></font>
+</marquee> 
+<center><img src="images/serveur2.jpg" alter="image-samba"></center>
+<font color="#2F4F4F" size="6"><center><h2>SERVEUR SAMBA4  </h2></center></font>
+<font color="#0000CD" size="5"><center><h3>Configuration d’un serveur SAMBA sous Linux</h3></center></font> 
+   <font color="#ff0000" size="6"><center><h2>Objectifs : </h2></center></font>
+<p>Samba 4 vise à remplacer Samba 3, qui lui, assurait les fonctions d'un domaine de type NT4. Rentrons au cœur des réseaux Active Directory alors que la sortie d'une version se profile à l'horizon. Alors que la branche 3 de Samba peut assurer la fonction de contrôleur de domaine type NT, Samba 4.0 implémente la partie serveur de l'environnement Active Directory utilisé par Windows 2000 et les versions suivantes. Il est donc maintenant possible de joindre un domaine Samba 4 avec toute version de Windows à partir de Windows NT4, et de profiter des fonctionnalités de l'Active Directory correspondantes.
+
+Afin de fournir un ensemble pleinement compatible, cette version inclut sa propre implémentation de serveur LDAP, un serveur Kerberos, un serveur DNS, un serveur RPC, un serveur NTP ainsi qu'un serveur de fichiers basé sur Samba 3.
+
+L'ensemble fonctionne sous un seul service nommé samba.
+
+Il est donc possible d'utiliser Samba 4 pour mettre à disposition des clients Windows, entre autres, des profils itinérants ou des stratégies de groupes.</p>
+    <font color="#0000CD" size="5"><center><h2>1 - Preparation  De L'Environnement Samba4 : </h2></center></font>
+
+<font color="#2F4F4F" size="6"><div>
+ 	 <font color="#FFA500" size="5"><h2>Sommaire : </h2></font>
+         	<ul>
+			<li>Introduction</li>
+ 	    		<li>Samba et l'Active Directory</li>
+ 			<li>Les contraintes de l'AD Samba 4</li>
+ 			<li>Administrer Samba 4</li>
+ 			<li>Samba 4 et les GPO</li>
+ 			<li>Samba 4 et le DNS</li>
+ 			<li>Samba 4 et NTP</li>
+ 			<li>Samba 4 et Kerberos</li>
+ 			<li>Samba 4 et LDAP</li>
+ 			<li>Samba 4 n'est pas Samba 3</li>
+ 			<li>La migration depuis Samba 3</li>
+ 			<li>Joindre le domaine</li>
+		        <li>Configuration Et Installation de Samba4</li>
+
+
+    		</ul>
+
+ <font color="#FFA500" size="5"><h2>Conclusion : </h2></font>
+</div></font>
+<!--ceci débute mon rapport partie corp  -->
+  <p class="txt">
+        
+
+
+<font color="#2F4F4F" size="6"><center><h2>Introduction : </h2></center></font>
+Le projet SAMBA est une application réseau permettant des échanges entre un serveur Linux et des stations sous : Windows, OS/2, Mac...<br>
+Le serveur Linux se comporte comme un serveur de fichiers capable d'offrir les services habituels sur un réseau : <br>
+<div>
+     <ul>
+           <li>partage de fichiers et de répertoires</li>
+           <li>partage d'imprimantes</li>
+         <li>respect des comptes utilisateurs</li>
+      <li>gestion des permissions d'accès.</li>
+  </ul>
+</div>
+Pour comprendre le fonctionnement de samba, il faut connaître les bases des réseaux Windows.<br>
+NetBIOS est à la base de tout le fonctionnement d'un réseau Microsoft comme le Nommage des machines,Gestion et nommage des groupes de travail ou des domaines,Identification d'un serveur comme contrôleur de domaine ou comme
+simple station et aussi le voisinag réseau.Il a été fortement critiqué pour la charge induite sur les réseaux, mais c'est aussi un système puissant et fonctionnel dès lors qu'il est paramétré
+avec soin sur un système stable et bien protégé.<br>NetBIOS, c'est le système de nommage des réseaux SMB (réseaux MS).On peut le comparer grossièrement à DNS pour le nommage internet.Pour identifier les éléments des réseaux Microsoft on utilise
+NetBIOS. Sans NetBIOS, pas de partage de fichiers et d'imprimantes, pas de Samba.<br>Sous Windows, il faut avoir activé soit le client pour les réseaux
+Microsoft (qui permet d'inscrire la station dans un domaine), soit le partage de fichiers et d'imprimantes (qui permet de partager des ressources au sein d'un groupe de travail).<br>Ne pas installer ces services, revient à rendre la machine sourde
+et muette sur un réseau SMB TCP/IP.<br>Sur une machine Unix, il faut installer Samba... avec Samba on installe donc les démons SMBD et NMBD.<br>
+<h2>La Gestion des Noms Netbios : </h2>
+elle Permet d’identifier les éléments du réseau (et donc permet le partage de fichiers, imprimantes etc...) ‫
+<center><img src="images/body.png" alter="image-netbios"></center><br>
+<center><img src="images/body1.png" alter="image-netbios"></center><br>
+<center><img src="images/body2.png" alter="image-netbios"></center><br>
+<center><img src="images/body3.png" alter="image-netbios"></center><br>
+
+
+<font color="#2F4F4F" size="6"><center><h2>Samba et l'Active Directory</h2></center></font>
+L'Active Directory consiste en une intégration particulièrement poussée d'un certain nombre de protocoles plus ou moins standardisés dans le but de fournir des services d'authentification, de configuration et d'administration (déploiement de logiciels et de configuration) centralisés. Fonctionnellement, c'est une évolution de ce qu'il était déjà possible de faire auparavant, car les principaux objets stockés dans l'Active Directory sont des utilisateurs, des groupes et des ordinateurs. Techniquement, l'évolution apportée par la migration vers de nouveaux protocoles, permet de partitionner les ressources de manière sécurisée, logique, le tout avec un passage à l'échelle plus important, car stocké dans une base de données répliquée, la NTDS pour NT Directory Services.
+
+<br>Alors que la branche 3 de Samba peut assurer la fonction de contrôleur de domaine type NT, Samba 4.0 implémente la partie serveur de l'environnement Active Directory utilisé par Windows 2000 et les versions suivantes. Il est donc maintenant possible de joindre un domaine Samba 4 avec toute version de Windows à partir de Windows NT4, et de profiter des fonctionnalités de l'Active Directory correspondantes.
+Afin de fournir un ensemble pleinement compatible, cette version inclut sa propre implémentation de serveur LDAP, un serveur Kerberos, un serveur DNS, un serveur RPC, un serveur NTP ainsi qu'un serveur de fichiers basé sur Samba 3.
+L'ensemble fonctionne sous un seul service nommé samba.
+Il est donc possible d'utiliser Samba 4 pour mettre à disposition des clients Windows, entre autres, des profils itinérants ou des stratégies de groupes.<br>
+
+<font color="#2F4F4F" size="6"><center><h2>Les Contraintes de l'AD Samba 4</h2></center></font>
+<center><img src="images/body4.png" alter="image-netbios"></center><br>
+
+<center><img src="images/ad1.png" alter="image-netbios"></center><br>
+<center><img src="images/ad2.png" alter="image-netbios"></center><br>
+<center><img src="images/ad3.png" alter="image-netbios"></center><br>
+<center><img src="images/ad4.png" alter="image-netbios"></center><br>
+<center><img src="images/ad5.png" alter="image-netbios"></center><br>
+<center><img src="images/ad6.png" alter="image-netbios"></center><br>
+<center><img src="images/ad7.png" alter="image-netbios"></center><br>
+<center><img src="images/ad8.png" alter="image-netbios"></center><br>
+<center><img src="images/ad9.png" alter="image-netbios"></center><br>
+
+
+<!-- partie Installation des pre-requis de samba 4 coté Serveur -->
+
+<font color="#2F4F4F" size="6"><center><h2>Installer Samba 4</h2></center></font>
+<font color="#B22222" size="6"><center><h3>ATTENTION : </h3></center></font>
+Avant l’installation de Samba, s’assurer que bind9, openLDAP et dnsmasq ne sont pas installés dessus sur le système car Samba vient avec ses propres composants.<br>
+Un Serveur doit avoir une adresse ip Fixer donc on va fixer l’IP du serveur dans le fichier <b>/etc/netplan/01-network-manager-all.yaml</b><br>
+<center><img src="images/body5.png" alter="image-netbios"></center><br>
+<b>On Applique la configuration en utilisant la commande : </b><br>
+</b># netplan apply</b><br>
+<b>Puis Redémarrer le service réseau par la commande : </b><br>
+<b># service networking restart</b><br>
+<center><img src="images/body6.png" alter="image-netbios"></center><br>
+<font color="#00008B" size="6"><center><h3>Donner un nom explicite à la machine : </h3></center></font><br>
+<center><img src="images/body7.png" alter="image-netbios"></center><br>
+Faire une résolution de noms dans le fichier hosts comme suit : <b># vim /etc/hosts</b><br>
+<center><img src="images/body8.png" alter="image-netbios"></center><br>
+<font color="#00008B" size="6"><center><h3>Test de connectivité : </h3></center></font><br>
+<center><img src="images/body9.png" alter="image-netbios"></center><br>
+<b>Redémarrer la machine</b><br>
+<b># reboot</b><br>
+
+<b>Désactiver les firewalls</b><br>
+<b># sudo service ufw stop</b><br>
+<b># service apparmor stop<b><br>
+
+<font color="#00008B" size="6"><center><h3>Configuration de Samba4 Et l'Installation des prérequis : </h3></center></font><br>
+<b>#apt update ; apt upgrade -y<b></br>
+<b># sudo apt install samba smbclient winbind libpam-winbind libnss-winbind krb5-kdc<b></br>
+<b>libpam-krb5 krb5-admin-server krb5-config -y<b><br><br>
+<center><img src="images/body10.png" alter="image-netbios"></center><br>
+<font color="#00008B" size="6"><center><h3> Le nom du serveur Kerberos : </h3></center></font><br>
+<center><img src="images/body11.png" alter="image-netbios"></center><br>
+<font color="#00008B" size="6"><center><h3> Le nom du serveur administratif : </h3></center></font><br>
+<center><img src="images/body13.png" alter="image-netbios"></center><br>
+<font color="#00008B" size="6"><center><h3> Configuration Générale de Samba 4  : </h3></center></font><br>
+<b>Renommer les anciens fichiers de samba et kerberos</b><br>
+<b># mv /etc/samba/smb.conf /etc/samba/smb.conf.old</b><br>
+<b># mv /etc/krb5.conf /etc/krb5.conf.old</b><br>
+<font color="#00008B" size="6"><center><h3> Approvisionnement du domaine  : </h3></center></font><br>
+<b>S’assurer que Vous n’avez pas de DNS, LDAP et les différents fichiers ci-dessus :<b><br>
+<b># samba-tool domain provision --use-rfc2307 --interactive</b><br>
+<center><img src="images/body14.png" alter="image-netbios"></center><br>
+<font color="#00008B" size="4"><center><h3> Si tout se passe bien, ça devrait finir par ceci : </h3></center></font><br>
+<center><img src="images/body15.png" alter="image-netbios"></center><br>
+<b>Configuration du kerberos en ajoutant une copie du fichier dans /etc</b><br>
+<b># cp /var/lib/samba/private/krb5.conf /etc/</b><br><br><br>
+
+<h2><b>Désactiver le service qui peut nous poser problème</b></h2><br>
+<b># systemctl stop systemd-resolved</b><br>
+<b># systemctl disable systemd-resolved</b><br>
+<b># unlink /etc/resolv.conf</b><br><br>
+
+<b>Puis redémarrer la machine</b><br>
+<b># reboot</b><br>
+<h2><b>Modifier Le DNS</b></h2><br>
+<b># /etc/resolv.conf<b><br>
+<center><img src="images/body16.png" alter="image-netbios"></center><br>
+<font color="#00008B" size="4"><center><h3> Rendre disponible les démons qui s’occupent du service : </h3></center></font><br>
+
+<h4><b> Masquer les services smbd, nmbd, winbind</b></h4><br>
+<center><img src="images/body17.png" alter="image-netbios"></center><br>
+<h3><b> Les désactiver</b></h3><br>
+<center><img src="images/body18.png" alter="image-netbios"></center><br>
+<center><img src="images/body19.png" alter="image-netbios"></center><br>
+<center><img src="images/body20.png" alter="image-netbios"></center><br>
+<center><img src="images/body21.png" alter="image-netbios"></center><br>
+<center><img src="images/body22.png" alter="image-netbios"></center><br>
+<center><img src="images/body23.png" alter="image-netbios"></center><br>
+<center><img src="images/body24.png" alter="image-netbios"></center><br>
+<center><img src="images/body25.png" alter="image-netbios"></center><br>
+<center><img src="images/body26.png" alter="image-netbios"></center><br>
+<center><img src="images/body27.png" alter="image-netbios"></center><br>
+<center><img src="images/body28.png" alter="image-netbios"></center><br>
+<center><img src="images/body29.png" alter="image-netbios"></center><br>
+<center><img src="images/body30.png" alter="image-netbios"></center><br>
+<center><img src="images/body31.png" alter="image-netbios"></center><br>
+<center><img src="images/body32.png" alter="image-netbios"></center><br>
+<center><img src="images/body33.png" alter="image-netbios"></center><br>
+<center><img src="images/body34.png" alter="image-netbios"></center><br>
+<center><img src="images/body35.png" alter="image-netbios"></center><br>
+<center><img src="images/body36.png" alter="image-netbios"></center><br>
+<center><img src="images/body37.png" alter="image-netbios"></center><br>
+<center><img src="images/body38.png" alter="image-netbios"></center><br>
+<center><img src="images/body39.png" alter="image-netbios"></center><br>
+<center><img src="images/body40.png" alter="image-netbios"></center><br>
+<center><img src="images/body42.png" alter="image-netbios"></center><br>
+<center><img src="images/body43.png" alter="image-netbios"></center><br>
+<center><img src="images/body44.png" alter="image-netbios"></center><br>
+<center><img src="images/body45.png" alter="image-netbios"></center><br>
+<center><img src="images/body46.png" alter="image-netbios"></center><br>
+<center><img src="images/body47.png" alter="image-netbios"></center><br>
+<center><img src="images/body48.png" alter="image-netbios"></center><br>
+<center><img src="images/body49.png" alter="image-netbios"></center><br>
+<center><img src="images/body50.png" alter="image-netbios"></center><br>
+<center><img src="images/body51.png" alter="image-netbios"></center><br>
+<center><img src="images/body52.png" alter="image-netbios"></center><br>
+<center><img src="images/body53.png" alter="image-netbios"></center><br>
+<center><img src="images/body54.png" alter="image-netbios"></center><br>
+<center><img src="images/body55.png" alter="image-netbios"></center><br>
+<center><img src="images/body56.png" alter="image-netbios"></center><br>
+<center><img src="images/body57.png" alter="image-netbios"></center><br>
+<center><img src="images/body58.png" alter="image-netbios"></center><br>
+<center><img src="images/body59.png" alter="image-netbios"></center><br>
+<center><img src="images/body60.png" alter="image-netbios"></center><br>
+<center><img src="images/body61.png" alter="image-netbios"></center><br>
+<center><img src="images/body62.png" alter="image-netbios"></center><br>
+<center><img src="images/body63.png" alter="image-netbios"></center><br>
+<center><img src="images/body64.png" alter="image-netbios"></center><br>
+<center><img src="images/body65.png" alter="image-netbios"></center><br>
+<center><img src="images/body66.png" alter="image-netbios"></center><br>
+<center><img src="images/body67.png" alter="image-netbios"></center><br>
+<center><img src="images/body68.png" alter="image-netbios"></center><br>
+<center><img src="images/body69.png" alter="image-netbios"></center><br>
+<center><img src="images/body70.png" alter="image-netbios"></center><br>
+<center><img src="images/body71.png" alter="image-netbios"></center><br>
+<center><img src="images/body72.png" alter="image-netbios"></center><br>
+<center><img src="images/body73.png" alter="image-netbios"></center><br>
+<center><img src="images/body75.png" alter="image-netbios"></center><br>
+<center><img src="images/body76.png" alter="image-netbios"></center><br>
+<center><img src="images/body77.png" alter="image-netbios"></center><br>
+<center><img src="images/body78.png" alter="image-netbios"></center><br>
+<center><img src="images/body79.png" alter="image-netbios"></center><br>
+<center><img src="images/body80.png" alter="image-netbios"></center><br>
+<center><img src="images/body81.png" alter="image-netbios"></center><br>
+<center><h4>on dit le compte est bloqué, il faut contacter l’administrateur Système !</h4></center>
+<center><img src="images/body82.png" alter="image-netbios"></center><br>
+<center><img src="images/body83.png" alter="image-netbios"></center><br>
+<center><img src="images/body84.png" alter="image-netbios"></center><br>
+<center><img src="images/body85.png" alter="image-netbios"></center><br>
+<center><img src="images/body86.png" alter="image-netbios"></center><br>
+<center><img src="images/body87.png" alter="image-netbios"></center><br>
+<center><img src="images/body88.png" alter="image-netbios"></center><br>
+<center><h4>donc on peut voir son compte en graphique . Et benam va se connecter aussi sur la machine Windows.</h4></center>
+<center><img src="images/body89.png" alter="image-netbios"></center><br>
+<center><h1>II. L’outil RSAT.</h1></center>
+<center><h2>installer RSAT sous la machine Windows 10 à l’aide de Powershell.</h2></center>
+<center><img src="images/body90.png" alter="image-netbios"></center><br>
+<center><img src="images/body91.png" alter="image-netbios"></center><br>
+<center><img src="images/body92.png" alter="image-netbios"></center><br>
+<!-- code RSAT -->
+<font color="#CD5C5C"<center><h2>Ensuite Ouvrir un PowerShell en tant qu’administrateur et exécuter la ligne de commande suivante :<center><h2></font>
+
+<center><h6>$regPath="Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\
+System"; $propertyName="FilterAdministratorToken"; [int]$curValue = 0;
+try{ $curValue=[int]::Parse((Get-ItemPropertyValue -Path $regPath -Name $propertyName -ErrorAction
+SilentlyContinue));} catch{} if($curValue -lt 1){ Set-ItemProperty -Path $regPath -Name $propertyName
+-Value 1}</h6></center><br>
+
+<center><img src="images/body93.png" alter="image-netbios"></center><br>
+<font color="#CD5C5C"<center><h3>Puis la commande suivante :<h3></font>
+<center><h6> Get-WindowsCapability -Online | Where-Object {$_.Name -like "Rsat*" -AND $_.State -eq "NotPresent"} | Add-WindowsCapability -Online</h6></center>
+<center><img src="images/body94.png" alter="image-netbios"></center><br>
+<center><img src="images/body95.png" alter="image-netbios"></center><br>
+<center><img src="images/body96.png" alter="image-netbios"></center><br>
+<center><h6>Choisir utilisateurs et ordinateurs Active Directory et cliquer sur Ajouter puis Ok<center></h6><br>
+<center><img src="images/body97.png" alter="image-netbios"></center><br>
+<center><h6>Et voici notre domaine ecole.sn et les comptes des users<center><h6>
+<center><img src="images/body98.png" alter="image-netbios"></center><br>
+<center><h5>Nous pouvons même gérer les horaires d’accès d’un compte. Prenons le cas du compte bouki</center></h5>
+<center><img src="images/body99.png" alter="image-netbios"></center><br>
+<center><img src="images/body100.png" alter="image-netbios"></center><br>
+<center><img src="images/body101.png" alter="image-netbios"></center><br>
+<center><img src="images/body102.png" alter="image-netbios"></center><br>
+<center><img src="images/body103.png" alter="image-netbios"></center><br>
+<center><img src="images/body104.png" alter="image-netbios"></center><br>
+<center><img src="images/body105.png" alter="image-netbios"></center><br>
+<center><img src="images/body106.png" alter="image-netbios"></center><br>
+<center><img src="images/body107.png" alter="image-netbios"></center><br>
+<center><img src="images/body108.png" alter="image-netbios"></center><br>
+<center><img src="images/body109.png" alter="image-netbios"></center><br>
+<center><img src="images/body110.png" alter="image-netbios"></center><br>
+<center><img src="images/body111.png" alter="image-netbios"></center><br>
+<center><h5>Sur le serveur on peut voir le fichier que BENAM a crée.</center></h5>
+<center><img src="images/body112.png" alter="image-netbios"></center><br>
+<center><img src="images/body113.png" alter="image-netbios"></center><br>
+<center><h5>voici le 1er compte :</center></h5>
+<center><img src="images/body114.png" alter="image-netbios"></center><br>
+<center><img src="images/body115.png" alter="image-netbios"></center><br>
+<h5><center>on précise son mot de passe et le mdp ne s’expire jamais selon l’administrateur BENAM</center></h5>
+<center><img src="images/body116.png" alter="image-netbios"></center><br>
+<center><img src="images/body117.png" alter="image-netbios"></center><br>
+<center><img src="images/body118.png" alter="image-netbios"></center><br>
+<center><img src="images/body119.png" alter="image-netbios"></center><br>
+<center><img src="images/body120.png" alter="image-netbios"></center><br>
+<center><img src="images/body121.png" alter="image-netbios"></center><br>
+<center><img src="images/body122.png" alter="image-netbios"></center><br>
+<center><img src="images/body123.png" alter="image-netbios"></center><br>
+<center><img src="images/body124.png" alter="image-netbios"></center><br>
+<center><img src="images/body125.png" alter="image-netbios"></center><br>
+<center><img src="images/body126.png" alter="image-netbios"></center><br>
+<center><img src="images/body127.png" alter="image-netbios"></center><br>
+<h6><center>Son espace de travail n’est pas créer et cette fois-ci il se déconnecte pour laisser l’Admin  BENAM attacher son espace de travail a son répertoire respectif .</center></h6>
+<center><img src="images/body128.png" alter="image-netbios"></center><br>
+<center><img src="images/body129.png" alter="image-netbios"></center><br>
+<center><img src="images/body130.png" alter="image-netbios"></center><br>
+<center><img src="images/body131.png" alter="image-netbios"></center><br>
+<center><img src="images/body132.png" alter="image-netbios"></center><br>
+<center><img src="images/body133.png" alter="image-netbios"></center><br>
+<center><img src="images/body134.png" alter="image-netbios"></center><br>
+<center><img src="images/body135.png" alter="image-netbios"></center><br>
+<center><img src="images/body136.png" alter="image-netbios"></center><br>
+<center><img src="images/body137.png" alter="image-netbios"></center><br>
+<center><img src="images/body138.png" alter="image-netbios"></center><br>
+<center><img src="images/body139.png" alter="image-netbios"></center><br>
+<center><img src="images/body140.png" alter="image-netbios"></center><br>
+<center><img src="images/body141.png" alter="image-netbios"></center><br>
+<h4><center>on voit sur l’écran que votre compte a été désactivé. contactez l’administrateur de votre système.<br>Cette fois-ci BENAM va activer son compte et il ressaye encore</center></h4>
+<center><img src="images/body142.png" alter="image-netbios"></center><br>
+<center><img src="images/body143.png" alter="image-netbios"></center><br>
+<h5><center>On va appliquer une stratégie de modification au compte de Morez la prochaine connexion on lui demande de changer son mot de passe .</center></h5>
+<center><img src="images/body144.png" alter="image-netbios"></center><br>
+<center><img src="images/body145.png" alter="image-netbios"></center><br>
+<h6></center>on lui demande de change son mot de passe et il clique sur Ok</center></h6>
+<center><img src="images/body146.png" alter="image-netbios"></center><br>
+<center><img src="images/body147.png" alter="image-netbios"></center><br>
+<center><img src="images/body148.png" alter="image-netbios"></center><br>
+<center><img src="images/body149.png" alter="image-netbios"></center><br><br>
+<center><img src="images/body150.png" alter="image-netbios"></center><br>
+<center><img src="images/body151.png" alter="image-netbios"></center><br>
+<center><img src="images/body152.png" alter="image-netbios"></center><br>
+<center><img src="images/body154.png" alter="image-netbios"></center><br>
+<center><img src="images/body155.png" alter="image-netbios"></center><br>
+<center><img src="images/body156.png" alter="image-netbios"></center><br>
+<center><img src="images/body157.png" alter="image-netbios"></center><br>
+
+
+
+    </p>
+
+    <script src="app.js"></script>
+</body>
+</html>

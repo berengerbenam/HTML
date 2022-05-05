@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<font color="#FF4500" size="5"><h1>
+Les bases de JavaScript :
+</h1></font>
+<p>JavaScript est un langage de programmation qui ajoute de l'interactivité à votre site web (par exemple : jeux, réponses quand on clique sur un bouton ou des données entrées dans des formulaires, composition dynamique, animations). Cet article vous aide à débuter dans ce langage passionnant et vous donne une idée de ses possibilités.</p><br>
+
+<font color="#FF4500" size="5"><h1>
+Qu'est le JavaScript, réellement ?
+</h1></font><br>
+
+<p>des Interfaces de Programmation d'Applications pour navigateurs (API) — API intégrées aux navigateurs web permettant de créer dynamiquement du HTML, de définir des styles de CSS, de collecter et manipuler un flux vidéo depuis la webcam de l'utilisateur ou de créer des graphiques 3D et des échantillonnages audio.</p>
+   			<p>des API tierces‑parties permettant aux développeurs d'incorporer dans leurs sites des fonctionnalités issues d'autres fournisseurs de contenu, comme Twitter ou Facebook.</p>
+			<p>des modèles et bibliothèques tierces‑parties applicables à votre HTML permettant de mettre en œuvre rapidement des sites et des applications.</p>		
+             
+
+<p>JavaScript (« JS » en abrégé) est un langage de programmation dynamique complet qui, appliqué à un document HTML, peut fournir une interactivité dynamique sur les sites Web. Il a été inventé par Brendan Eich, co-fondateur du projet Mozilla, de la Mozilla Foundation et de la Mozilla Corporation.</p><br>
+<p>JavaScript est d'une incroyable flexibilité. Vous pouvez commencer petit, avec des carrousels, des galeries d'images, des variations de mises en page et des réponses aux clics de boutons. Avec plus d'expérience, vous serez en mesure de créer des jeux, des graphiques 2D et 3D animés, des applications complètes fondées sur des bases de données et bien plus encore !
+</p><br>
+<p>JavaScript est plutôt compact tout en étant très souple. Les développeurs ont écrit de nombreux outils sur le cœur du langage JavaScript, créant des fonctionnalités supplémentaires très simplement. Parmi ces outils, il y a :</p>
+<p>des Interfaces de Programmation d'Applications pour navigateurs (API) — API intégrées aux navigateurs web permettant de créer dynamiquement du HTML, de définir des styles de CSS, de collecter et manipuler un flux vidéo depuis la webcam de l'utilisateur ou de créer des graphiques 3D et des échantillonnages audio.
+des API tierces‑parties permettant aux développeurs d'incorporer dans leurs sites des fonctionnalités issues d'autres fournisseurs de contenu, comme Twitter ou Facebook.
+des modèles et bibliothèques tierces‑parties applicables à votre HTML permettant de mettre en œuvre rapidement des sites et des applications.</p><br>
+<font color="#FF4500" size="5"><h1>
+Un exemple « hello world »
+</h1></font>
+<p>Le paragraphe précédent laisse entrevoir quelque chose de passionnant, et cela l'est vraiment — JavaScript est une technologie web parmi les plus dynamiques. Une fois que vous commencerez à être autonome en JavaScript, vous entrerez dans une nouvelle dimension de puissance et créativité.
+Cependant, être à l'aise avec JavaScript est plus dur que de l'être avec HTML ou CSS. Vous pourrez démarrer petit et continuer à travailler par petites étapes de façon soutenue. Pour commencer, nous allons vous montrer comment ajouter un JavaScript basique à votre page, en créant un exemple « Hello world ! » (la norme en matière d'exemples de programmation de base).<a href="https://fr.wikipedia.org/wiki/Hello_world">Cliquez-Ici Pour Plus d'info </a></p>
+<p>Tout d'abord, allez sur votre site de test et créez un nouveau dossier nommé « scripts » (sans guillemets). Ensuite, dans le nouveau dossier scripts que vous venez de créer, créez un nouveau fichier appelé main.js. Sauvegardez-le dans votre dossier scripts.
+Ensuite, dans votre fichier index.html, ajoutez l'élément suivant sur une nouvelle ligne avant la balise fermante </body> :</p><br>
+<img src="./images/balise.png" alter="my picture">
+<p>Cet élément a le même rôle que l'élément <link> pour le CSS — il applique le code JavaScript à la page, de sorte qu'il puisse avoir de l'effet sur le HTML (en même temps que le CSS et autres sur la page).
+Maintenant ajoutez le code suivant dans main.js :</p>
+<p>let myHeading = document.querySelector('h1');</p>
+<p>myHeading.textContent = 'Bonjour, monde !';</p>
+<p>Assurez-vous que les fichiers HTML et JavaScript soient enregistrés puis chargez index.html dans votre navigateur. Vous devriez obtenir quelque chose comme :</p>
+<img src="./images/file.png" alter="image">
+<p>Note : La raison pour laquelle nous avons placé l'élément <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/script"> <span><b>Cliquez sur le ==> script</b></span> <a> en bas du fichier HTML est que le HTML est chargé par le navigateur dans l'ordre dans lequel il apparaît dans le fichier. Si le JavaScript est chargé en premier et qu'il est supposé affecter le HTML en dessous, il pourrait ne pas fonctionner, car le JavaScript serait chargé avant le HTML sur lequel il est supposé travailler. Par conséquent, placer JavaScript près du bas de la page HTML est souvent la meilleure stratégie.</p>
+<font color="#FF4500" size="5"><h1>
+Que s'est-il passé ?
+</h1></font>
+<p>Le texte du titre a été changé en «Bonjour, monde ! » en utilisant JavaScript. Pour cela, on a utilisé une fonction appelée<a href="https://developer.mozilla.org/fr/docs/Web/API/Document/querySelector"><b> querySelector()</b></a> pour obtenir une référence sur l'en‑tête et la stocker dans une variable appelée myHeading. C'est assez proche de ce qu'on a fait avec les sélecteurs CSS. Lorsqu'on souhaite manipuler un élément, il faut d'abord le sélectionner.</p>
+<p>Ensuite, nous fixons à « Bonjour, monde ! » la valeur de la propriété<a href="https://developer.mozilla.org/fr/docs/Web/API/Node/textContent"> <b>textContent</b></a> de la variable myHeading (elle représente le contenu du titre).</p>
+<p>Note : Les deux fonctions que vous avez utilisées ci-dessus font partie de l'API Document Object Model <b>(DOM)</b>, qui vous permet de manipuler les documents.</p>
+<font color="#FF4500" size="5"><h1>
+<p><a href="https://developer.mozilla.org/fr/docs/Learn/Getting_started_with_the_web/JavaScript_basics#les_bases_du_javascript_en_acc%C3%A9l%C3%A9r%C3%A9">Les bases du JavaScript en accéléré</a></p>
+</h1></font>
+<p>Nous allons explorer les fonctionnalités de base de JavaScript pour que vous puissiez mieux comprendre comment il fonctionne. Ces fonctionnalités sont communes à la plupart des langages de programmation, si vous comprenez ces éléments en JavaScript, vous êtes en bonne voie de pouvoir programmer à peu près n'importe quoi !</p>
+<p>Attention : Tout au long de cet article, vous pouvez saisir les lignes de code dans votre console JavaScript pour voir ce qui se passe. Pour plus de détails sur les consoles JavaScript, vous pouvez lire <a href="https://developer.mozilla.org/fr/docs/Learn/Common_questions/What_are_browser_developer_tools">Découvrir les outils de développement présents dans le navigateur.</a></p>
+<font color="#FF4500" size="5"><h1>
+<a href="https://developer.mozilla.org/fr/docs/Learn/Getting_started_with_the_web/JavaScript_basics#variables">Variables : </a>
+</h1></font>
+<p>Les <a href="https://developer.mozilla.org/fr/docs/Glossary/Variable"><b>variables</b></a> sont des conteneurs dans lesquels on peut stocker des valeurs. Pour commencer, il faut déclarer une variable avec le mot-clé let en le faisant suivre de son nom : </p>
+<h2>let myVariable;</h2>
+<p><b>Note :</b> Un point-virgule en fin de ligne indique là où se termine l'instruction ; ce n'est impérativement requis que si vous devez séparer des instructions sur une même ligne. Toutefois, certains pensent qu'il est de bonne pratique de les mettre à la fin de chaque instruction. Il y a d'autres règles à propos de leur emploi ou non‑emploi — voyez <a href="https://www.codecademy.com/resources/blog/your-guide-to-semicolons-in-javascript/"><b>Guide des points‑virgule en JavaScript</b></a> pour plus de détails.</p>
+<p><b>Note :</b> Vous pouvez utiliser (quasiment) n'importe quel nom pour nommer une variable, mais il y a quelques restrictions (voyez <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Grammar_and_types#variables"><b>cet article</b></a> sur les règles de nommage des variables). Si vous avez un doute, vous pouvez <a href="https://mothereff.in/js-variables"><b>vérifier le nom de votre variable</b></a> pour voir s'il est valide.</p>
+<p><b>Note :</b> JavaScript est sensible à la casse — myVariable est une variable différente de myvariable. Si vous avez des problèmes dans votre code, vérifiez la casse  ! </p>
+<p>Une fois une variable déclarée, vous pouvez lui donner une valeur : </p>
+<p>myVariable = <b>'RTN';</b></p>
+<p>Vous pouvez faire les deux opérations sur une même ligne si vous le souhaitez :</p>
+<p>let myVariable = <b>'RTN';</b></p>
+<p>Vous retrouvez la valeur en appelant simplement la variable par son nom : </p>
+<p><b>myVariable;</b></p>
+<p>Une fois qu'on a donné une valeur à une variable, on peut la changer plus loin :</p>
+<p>let myVariable = <b>'RTN';</b></p>
+<p>myVariable = <b>'EC2LT';</b></p>
+<p>Notez que les variables peuvent contenir des <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Data_structures#les_valeurs_primitives"><b>types différents de données :</b></a></p>
+
+<table border="25px">
+<tr>
+<td>Variable</td><td>Explication</td><td>Exemple</td>
+</tr><br>
+<tr>
+<td><a href="https://developer.mozilla.org/fr/docs/Glossary/String"><b>Chaîne de caractères</b></a></td><td>Une suite de caractères connue sous le nom de chaîne. Pour indiquer que la valeur est une chaîne, il faut la placer entre guillemets.</td><td>let myVariable = 'RTN';</td>
+</tr><br>
+<tr>
+<td><a href="https://developer.mozilla.org/fr/docs/Glossary/Number"><b>Nombre</b></a></td><td>Un nombre. Les nombres ne sont pas entre guillemets.</td><td>let myVariable = 10;</td>
+</tr><br>
+<tr>
+<td><a href="https://developer.mozilla.org/fr/docs/Glossary/Boolean"><b>Booléen</b></a></td><td>Une valeur qui signifie vrai ou faux. true/false sont des mots-clés spéciaux en JS, ils n'ont pas besoin de guillemets.</td><td>let myVariable = true;</td>
+</tr><br>
+<tr>
+<td><a href="https://developer.mozilla.org/fr/docs/Glossary/array"><b>Tableau</b></a></td><td>Une structure qui permet de stocker plusieurs valeurs dans une seule variable.</td><td>let myVariable = [1,'Bob','Étienne',10];
+Référez‑vous à chaque élément du tableau ainsi : myVariable[0], myVariable[1], etc...</td>
+</tr><br>
+<tr>
+<td><a href="https://developer.mozilla.org/fr/docs/Glossary/Object"><b>Objet</b></a></td><td>À la base de toute chose. Tout est un objet en JavaScript et peut être stocké dans une variable. Gardez cela en mémoire tout au long de ce cours.</td><td>let myVariable = document.querySelector('h1'); tous les exemples au dessus sont aussi des objets.</td>
+</tr><br>
+<tr>
+</table>
+<p>Pourquoi a-t-on besoin de variables ? Et bien parce qu'elles sont essentielles à la programmation. Si les valeurs ne pouvaient pas changer, on ne pourrait rien faire de dynamique, comme personnaliser un message de bienvenue ou changer l'image affichée dans une galerie.</p>
+<font color="#FF4500" size="5"><h1>
+<a href="https://developer.mozilla.org/fr/docs/Learn/Getting_started_with_the_web/JavaScript_basics#commentaires">Commentaires :</a> 
+</h1></font>
+<p>Il est possible d'intégrer des commentaires dans du code JavaScript, de la même manière que dans les CSS :</p>
+<font color="#FF0000" siez="15">
+/*<br><br><br>
+Tout ce qui est écrit ici est entre commentaires.<br><br><br>
+*/
+</font>
+<p>Si votre commentaire tient sur une ligne, vous pouvez utiliser deux barres obliques pour indiquer un commentaire :</p>
+<font color="#FF0000" siez="25">
+<p>// Voici un commentaire</p>
+
+</font>
+<font color="#FF4500" size="5"><h1>
+Opérateurs :
+</h1></font>
+<p>Un<a href="https://developer.mozilla.org/fr/docs/Glossary/Operator"> <b>opérateur</b></a> est un symbole mathématique qui produit un résultat en fonction de deux valeurs (ou variables). Le tableau suivant liste certains des opérateurs les plus simples ainsi que des exemples que vous pouvez tester dans votre console JavaScript.</p>
+
+<table border="25px">
+<tr>
+<td><b>Opérateur</b></td><td><b>Explication</b></td><td><b>Symbole(s)</b></td><td><b>Exemple</b></td>
+</tr><br>
+<tr>
+<td><b>Addition</b></td><td>Utilisé pour ajouter deux nombres ou concaténer (accoler) deux chaînes.</td><td><b>+</b></td><td>6 + 9;<br>
+"Bonjour " + "monde !";</td>
+</tr><br>
+<tr>
+<td><b>Soustraction,<br> multiplication, division</b></td><td>Les opérations mathématiques de base.</td><td>-, *, /</td><td>9 - 3;<br>
+8 * 2; // pour multiplier, on utilise un astérisque<br>
+9 / 3;</td>
+</tr><br>
+<tr>
+<tr>
+<td><b>Assignation</b></td><td>On a déjà vu cet opérateur : il affecte une valeur à une variable.</td><td>=</td><td>let myVariable = 'RTN';</td>
+</tr><br>
+<tr>
+<tr>
+<td><b>Égalité</b></td><td>Teste si deux valeurs sont égales et renvoie un booléen true/false comme résultat.</td><td>===</td><td>let myVariable = 3;<br>
+myVariable === 4;</td>
+</tr><br>
+<tr>
+<tr>
+<td><b>Négation , N'égale pas</b></td><td>Renvoie la valeur logique opposée à ce qu'il précède ; il change true en false, etc. Utilisé avec l'opérateur d'égalité, l'opérateur de négation teste que deux valeurs ne sont pas égales.</td><td>!, !==</td><td>L'expression de base est vraie, mais la comparaison renvoie false parce que nous la nions :<br>
+
+let myVariable = 3;<br>
+!(myVariable === 3);<br>
+
+On teste ici que "myVariable n'est PAS égale à 3". Cela renvoie false, car elle est égale à 3.<br>
+
+let myVariable = 3;<br>
+myVariable !== 3;</td>
+</tr><br>
+<tr>
+</table>
+<p>Il y a nombre d'autres opérateurs à explorer, mais nous nous en tiendrons à ceux-là pour le moment. Voir <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators"><b>Expressions et opérateurs</b></a> pour la liste complète.</p>
+<p><b>Note :</b> Mélanger les types de données peut conduire à d'étranges résultats lors des opérations, donc prenez soin de vous référer correctement à vos variables et d'obtenir les résultats attendus. Par exemple, entrez "35" + "25" dans votre console. Pourquoi n'obtenez-vous pas le résultat attendu ? Parce que les guillemets ont transformé les nombres en chaînes, et donc vous avez concaténé deux chaînes au lieu d'additionner deux nombres. Si vous entrez 35 + 25, vous obtiendrez le bon résultat.</p>
+<font color="#FF4500" size="5"><h1>
+<a href="https://developer.mozilla.org/fr/docs/Learn/Getting_started_with_the_web/JavaScript_basics#structures_conditionnelles">Structures conditionnelles :</a>
+</h1></font>
+<p>Les structures conditionnelles sont des éléments du code qui permettent de tester si une expression est vraie ou non et d'exécuter des instructions différentes selon le résultat. La structure conditionnelle utilisée la plus fréquemment est <b>if</b> ... <b>else</b>. Par exemple : </P>
+<p>let iceCream = 'chocolat';<br>
+if (iceCream === 'chocolat') {<br>
+  alert("J'adore la glace au chocolat !");<br>
+} else {<br>
+  alert("Ooooh, mais j'aurais préféré au chocolat.");<br>
+}</p>
+<p>L'expression contenue dans <b>if ( ... )</b> correspond au test — Ici, on utilise l'opérateur d'égalité (décrit plus haut) pour comparer la variable iceCream avec la chaîne de caractères chocolat pour voir si elles sont égales. Si cette comparaison renvoie true, le premier bloc de code sera exécuté. Sinon, le premier bloc est sauté et  c'est le code du second bloc, celui présent après  else, qui est exécuté.</p>
+<font color="#FF4500" size="5"><h1>
+<a href="https://developer.mozilla.org/fr/docs/Learn/Getting_started_with_the_web/JavaScript_basics#fonctions"><b>Fonctions :</b></a>
+</h1></font>
+<p>Les fonctions sont un moyen de compacter des fonctionnalités en vue de leur réutilisation. Quand vous avez besoin de la procédure, vous pouvez appeler une fonction, par son nom, au lieu de ré‑écrire la totalité du code chaque fois. Nous avons déjà utilisé des fonctions plus haut, par exemple : </p>
+<h2>1 ) let myVariable = document.querySelector('h1');</h2>
+<h2>2 ) alert('Bonjour !');</h2>
+<p>Ces fonctions (querySelector et alert) sont disponibles dans le navigateur et vous pouvez les utiliser où bon vous semble.</p>
+<p>Si vous voyez quelque chose qui ressemble à un nom de variable et qui est suivi de parenthèses — () —, c'est probablement une fonction. Les fonctions prennent souvent des <a href="https://developer.mozilla.org/fr/docs/Glossary/Argument"><b>arguments</b></a> — bouts de données dont elles ont besoin pour faire leur travail. Ils sont placés entre parenthèses, séparés par des virgules s'il y en a plusieurs.</p>
+<p>Par exemple, la fonction <b>alert()</b> fait apparaître une fenêtre de pop-up dans la fenêtre du navigateur, mais vous devez donner une chaîne comme argument pour indiquer à la fonction ce que l'on souhaite écrire dans cette fenêtre.</p>
+<p>La bonne nouvelle est que vous pouvez définir vos propres fonctions — par exemple, vous pouvez écrire une fonction toute simple qui prend deux arguments et les multiplie : </p>
+<h3>function multiply(num1,num2) {<br>
+  let result = num1 * num2;<br>
+  return result;<br>
+}</h3>
+<p><b>Vous pouvez déclarer cette fonction dans la console avant de l'utiliser plusieurs fois : </b></p>
+<p>multiply(4, 7);<br>
+multiply(20, 20);<br>
+multiply(0.5, 3);</p>
+<p><b>Note :</b> L'instruction <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Statements/return"><b>return</b></a> indique au navigateur qu'il faut renvoyer la variable <b>result</b> en dehors de la fonction afin qu'elle puisse être réutilisée par ailleurs. Cette instruction est nécessaire car les variables définies à l'intérieur des fonctions sont uniquement disponibles à l'intérieur de ces fonctions. C'est ce qu'on appelle une <b>portée</b> (pour en savoir plus, lisez <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Grammar_and_types#les_port%c3%a9es_de_variables"><b>cet article</b>).</a></p>
+<font color="#FF4500" size="5"><h1>
+Événements : 
+</h1></font>
+<p>Pour qu'un site web soit vraiment interactif, vous aurez besoin d'événements. Les événements sont des structures de code qui « écoutent » ce qui se passe dans le navigateur et déclenchent du code en réponse. Le meilleur exemple est <a href="https://developer.mozilla.org/fr/docs/Web/API/Element/click_event"><b>l'événement cliquer</b>,</a> déclenché par le navigateur quand vous cliquez sur quelque chose avec la souris. À titre de démonstration, saisissez ces quelques lignes dans la aconsole, puis cliquez sur la page en cours : </p>
+<h3>document.querySelector('html').addEventListener('click', function() {<br>
+    alert('Aïe, arrêtez de cliquer !!');<br>
+});</h3>
+<p>Il existe plein de méthodes pour <b>« attacher »</b> un événement à un élément. Dans cet exemple, nous avons sélectionné l'élément HTML concerné et nous avons défini un gestionnaire <a href="https://developer.mozilla.org/fr/docs/Web/API/GlobalEventHandlers/onclick"><b>onclick</b></a> qui est une propriété qui est égale à une fonction anonyme (sans nom) qui contient le code à exécuter quand l'utilisateur clique.<br>
+
+<b>On pourra noter que :</p></b>
+<h3>document.querySelector('html').addEventListener('click', function() {});</h3>
+<p>est équivalent à :</p>
+<h3>let myHTML = document.querySelector('html');<br>
+myHTML.addEventListener('click', function() {});</h3>
+<p>La première syntaxe est simplement plus courte.</p>
+<font color="#FF4500" size="5"><h1>
+Booster notre site web : 
+</h1></font>
+<p>Maintenant que nous avons vu quelques bases en JavaScript, nous allons ajouter quelques fonctionnalités intéressantes à notre site pour voir ce qu'il est possible de faire.</p>
+<font color="#FF4500" size="5"><h1>
+Ajouter un changeur d'image : 
+</h1></font>
+<p>Dans cette section, nous allons incorporer une autre image au site en utilisant quelques fonctionnalités de l'<b>API DOM</b> et un peu de <b>JavaScript</b> pour alterner entre les deux images lorsqu'on clique sur l'image affichée.</p>
+<p>1. Tout d'abord, trouvez une autre image à afficher sur le site. Assurez‑vous qu'elle soit de même taille que la première, ou le plus possible approchante.</p>
+<p>2. Enregistrez cette image dans votre dossier images.</p>
+<p>3. Renommez cette image « firefox2.png » (sans les guillemets).</p>
+<p>4. Dans le fichier main.js, entrez ce code JavaScript (si votre code « Bonjour, monde » est toujours là, supprimez‑le) :</p>
+<p>let myImage = document.<b>querySelector</b>('img');<br>
+
+myImage.<b>addEventListener</b>('click', function() {<br>
+    let mySrc = myImage.<b>getAttribute</b>('src');<br>
+    if (mySrc === 'images/firefox-icon.png') {<br>
+      myImage.<b>setAttribute</b>('src', 'images/firefox2.png');<br>
+    } else {<br>
+      myImage.<b>setAttribute</b>('src', 'images/firefox-icon.png')<br>;
+    }<br>
+});</p>
+<p>5. Sauvegardez tous les fichiers puis chargez index.html dans le navigateur. Maintenant, si vous cliquez sur l'image, elle doit changer pour l'autre !</p>
+<p>Dans cet exemple, nous utilisons une référence vers l'élement <b>img</b> grâce à la variable myImage.<br> Ensuite, nous égalons la propriété du gestionnaire d'événement onclick de cette variable à une fonction sans nom (une fonction anonyme). Maintenant chaque fois que cet élément est cliqué :</p><br>
+<font color="#FF4500" size="5"><h1><a> Ajouter un message d'accueil personnalisé : </a>
+</h1></font>
+<p>Continuons en ajoutant encore un peu de code pour changer le titre de la page afin d'inclure un message d'accueil personnalisé pour le visiteur du site. Ce message d'accueil sera conservé quand l'utilisateur quittera le site et s'il y revient — nous le sauvegarderons avec l'API Web Storage. Nous ajouterons également une option pour pouvoir changer l'utilisateur et le message d'accueil si besoin.</p>
+<p> 1. Dans le fichier index.html, ajoutons la ligne suivante avant l'élément <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/script"><b>script</b></a></p>
+<p>2. si ce n'est pas le cas (ce qui signifie que l'image a déjà été changée), la valeur de src revient à sa valeur initiale.</p>
+<img src="./images/bouton.png" alter="image">
+<p>2. Dans le fichier <b>main.js</b>, ajoutons le code suivant à la fin du fichier. Cela fait référence au nouveau bouton ajouté et à l'élément de titre puis enregistrons ces références dans des variables : </p>
+<p>let myButton = document.querySelector('button');<br>
+let myHeading = document.querySelector('h1');</p>
+<p>Ajoutons maintenant les fonctionnalités pour avoir ce message d'accueil personnalisé (cela ne servira pas immédiatement mais un peu plus tard) : </p>
+<p>function setUserName() {<br>
+  let myName = prompt('Veuillez saisir votre nom.');<br>
+  localStorage.setItem('nom', myName);<br>
+  myHeading.textContent = 'Mozilla est cool, ' + myName;<br>
+}</p>
+<p>Cette fonction utilise la fonction <a href="https://developer.mozilla.org/fr/docs/Web/API/Window/prompt"><b>prompt()</b></a> qui affiche une boîte de dialogue, un peu comme alert() sauf qu'elle permet à l'utilisateur de saisir des données et de les enregistrer dans une variable quand l'utilisateur clique sur OK*.* Dans notre exemple, nous demandons à l'utilisateur de saisir son nom. Ensuite, nous appelons une API appelée localStorage. Cette API permet de stocker des données dans le navigateur pour pouvoir les réutiliser ultérieurement. Nous utilisons la fonction setItem() de cette API pour stocker la donnée qui nous intéresse dans un conteneur appelé 'nom'. La valeur stockée ici est la valeur de la variable myName qui contient le nom saisi par l'utilisateur. Enfin, on utilise la propriété textContent du titre pour lui affecter un nouveau contenu.</p>
+<p>4. Ajoutons ensuite ce bloc if ... else. Ce code correspond à l'étape d'initialisation car il sera utilisé la première fois que la page est chargée par l'utilisateur : </p>
+<p>if (!localStorage.getItem('nom')) {<br>
+  setUserName();<br>
+} else {<br>
+  let storedName = localStorage.getItem('nom');<br>
+  myHeading.textContent = 'Mozilla est cool, ' + storedName;<br>
+}</p>
+<p>Ce bloc utilise l'opérateur de négation (NON logique, représenté avec le !) pour vérifier si le navigateur possède une donnée enregistrée appelée nom. Si non, la fonction setUserName() est appelée pour créer cette donnée. Si elle existe (ce qui correspond au cas où l'utilisateur est déjà venu sur la page), on la récupère avec la méthode getItem() et on définit le contenu de textContent pour le titre avec une chaîne suivie du nom de l'utilisateur, comme nous le faisons dans  setUserName().</p>
+<p>5. Enfin, on associe le gestionnaire onclick au bouton. De cette façon, quand on clique sur le bouton, cela déclenchera l'exécution de la fonction setUserName(). Ce bouton permet à l'utilisateur de modifier la valeur s'il le souhaite:</p>
+<p>myButton.addEventListener('click', function() {<br>
+  setUserName();<br>
+});</p>
+<p><b>Récapitulons :</b> la première fois que l'utilisateur viste le site, il sera invité à saisir un nom d'utilisateur. Ce nom sera utilisé pour afficher un message d'accueil personnalisé. Si l'utilisateur souhaite changer son nom, il peut cliquer sur le bouton. En supplément, le nom est enregistré pour plus tard grâce à l'API localStorage, cela permet à l'utilisateur de retrouver son nom, même s'il a fermé la page et/ou le navigateur et qu'il revient plus tard !</p>
+
+<font color="#FF4500" size="5"><h1>
+Conclusion : 
+</h1></font>
+<p> vous avez suivi les étapes détaillées sur cette page, vous devriez obtenir un résultat semblable à celui-ci (vous pouvez aussi voir la version que nous avons obtenue ici <a href="./index.html" data-after="JAVA-SCRIPT"> SCRIPT</a></li> ) : </p>
+
+
+</body>
+</html>

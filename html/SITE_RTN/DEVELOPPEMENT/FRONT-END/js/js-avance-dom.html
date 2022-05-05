@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<font color="#FF4500" size="5"><h2>
+Présentation du DOM HTML et de ses APIs accessibles en JavaScript :
+</h2></font>
+<p>Dans cette nouvelle partie, nous allons étudier le DOM ou Document Object Model, une interface qui fait partie du BOM (Browser Object Model) et grâce à laquelle nous allons pouvoir manipuler le contenu HTML et les styles de nos pages.</p>
+<font color="#FF4500" size="5"><h2>
+Présentation et définition du DOM ou Document Object Model
+</h2></font>
+<p>Dans la partie précédente, nous avons étudié le BOM ou Browser Object Model ainsi que certaines des interfaces le composant.</p>
+<p>Le terme DOM est, au contraire du BOM, un terme standardisé et donc défini de manière officielle. Le DOM est une interface de programmation pour des documents HTML ou XML qui représente le document (la page web actuelle) sous une forme qui permet aux langages de script comme le JavaScript d’y accéder et d’en manipuler le contenu et les styles.</p>
+<p>Le DOM est ainsi une représentation structurée du document sous forme « d’arbre » crée automatiquement par le navigateur. Chaque branche de cet arbre se termine par ce qu’on appelle un nœud qui va contenir des objets. On va finalement pouvoir utiliser ces objets, leurs propriétés et leurs méthodes en JavaScript.</p>
+<p>Le DOM contient ou correspond à un ensemble d’APIs qui font partie du BOM comme l’interface Document par exemple qui représente une page et sert de point d’entrée dans l’arborescence du DOM.
+Pour utiliser les propriétés et méthodes de l’interface Document, nous allons tout simplement utiliser la propriété document de Window. Nous avons déjà utilisée cette propriété de nombreuses fois dans ce cours, notamment lorsqu’on souhaitait injecter du texte dans un paragraphe avec le code document.getElementById('#').innerHTML.</p>
+<font color="#FF4500" size="5"><h2>
+Une première présentation de la structure du DOM : 
+</h2></font>
+<p>Lorsqu’on demande à un navigateur d’afficher une page Web, celui-ci va automatiquement créer un modèle objet de la page ou du document. Ce modèle objet correspond à une autre représentation de la page sous forme d’arborescence contenant des objets qui sont de type Node (nœuds).
+
+Les navigateurs utilisent eux-mêmes cette arborescence qui va s’avérer très pratique à manipuler pour eux et notamment pour appliquer les styles aux bons éléments. Nous allons également pouvoir utiliser ce modèle objet en utilisant un langage de script comme le JavaScript.
+</p>
+<p>Regardez plutôt le code HTML suivant : </p>
+<img src="images/dom.png">
+<p>Lorsqu’on demande au navigateur d’afficher cette page, il crée automatiquement un DOM qui ressemble à ceci :</p>
+<img src="images/dom1.png">
+<p>Cette structure ne doit pas vous faire peur. Le modèle objet d’un document HTML commence toujours avec l’élément html (et son doctype qui est un cas particulier). On parle également de <b> « nœud »</b> racine. </p>
+<font color="#FF4500" size="5"><h2>
+Les objets Node ou nœuds du DOM
+</h2></font>
+<p>Le terme « nœud » est un terme générique qui sert à désigner tous les objets contenus dans le <b>DOM</b>. A l’extrémité de chaque branche du <b>DOM</b> se trouve un nœud.</p>
+<p>A partir du nœud racine qui est le nœud <b>HTML</b> on voit que 3 branches se forment : une première qui va aboutir au nœud <b>HEAD</b>, une deuxième qui aboutit à un nœud <b>#text</b> et une troisième qui aboutit à un nœud <b>BODY</b>.</p>
+<p>De nouvelles branches se créent ensuite à partir des nœuds HEAD et BODY et etc.
+
+Comme vous pouvez le voir, cette architecture est très similaire au code de notre page (ce qui est normal puisqu’elle en est tirée), à la différence qu’on a également des nœuds « texte » mentionnés.
+
+Ces nœuds texte apparaissent pour deux raisons : soit parce qu’un élément contient effectivement du texte, soit parce qu’on est retourné à la ligne ou qu’on a laissé un espace entre deux éléments contenus dans l’élément html (aucun nœud de type texte n’est créé entre les balises ouvrantes de html et de head ni entre les balises fermantes de body et de <b>html</b>).<br><br><br>
+
+Un caractère spécial va nous indiquer si un nœud de type texte a été constitué par une nouvelle ligne (caractère ↵), un espace (caractère ␣) ou du texte (caractère #).
+
+Une autre représentation du DOM peut être obtenue en inspectant la page. Dans cette représentation, certains navigateurs comme Chrome ne mentionnent pas les nœuds texte crées par des espaces ou des retours à la ligne dans le code car ils savent que ce ne sont que des nœuds « esthétiques » et non utiles au code.</p>
+<img src="images/dom2.png">
+<p>Vous pouvez ici retenir que chaque entité dans une page HTML va être représentée dans le DOM par un nœud.</p>
+<font color="#FF4500" size="5"><h2>
+Les types de nœuds du DOM
+</h2></font>
+<p>On va pouvoir distinguer les nœuds les uns des autres en fonction de s’il s’agit d’un nœud constitué par un texte, par un élément, par un commentaire, etc. On va pouvoir utiliser des propriétés et méthodes différentes avec chaque type de nœud puisqu’ils vont dépendre d’interfaces différentes.</p>
+<p>Pour être tout à fait précis, voici les différents types de nœuds que vous pourrez rencontrer et qui sont représentés par des constantes auxquelles une valeur est liée :</p>
+<table border="8px">
+<tr><td><b>Constante</b></td><td><b>Valeur</b></td><td><b>Description</b></td></tr><br>
+<tr><td>ELEMENT_NODE</td><td>1</td><td>Représente un nœud élément (comme <b>p</b> ou <b>div</b> par exemple)></td></tr><br>
+<tr><td>TEXT_NODE</td><td>3</td><td>Représente un nœud de type texte></td></tr><br>
+<tr><td>PROCESSING_INSTRUCTION_NODE</td><td>7</td><td>Nœud valable dans le cas d’un document XML. Nous ne nous en préoccuperons pas ici.</td></tr><br>
+<tr><td>COMMENT_NODE</td><td>8</td><td>	Représente un nœud commentaire</td></tr><br>
+<tr><td>DOCUMENT_TYPE_NODE</td><td>10</td><td>Représente le nœud doctype</td></tr><br>
+<tr><td>DOCUMENT_FRAGMENT_NODE</td><td>11</td><td>Représente un objet document minimal qui n’a pas de parent (ce type de nœud ne nous intéressera pas ici</td></tr><br>
+</table>
+<p>Par ailleurs, vous pouvez noter qu’il existait auparavant d’autres constantes de type nœuds qui sont aujourd’hui dépréciées dont notamment ATTRIBUTE_NODE (représentant l’attribut d’un élément) et d’autres constantes liées au XML qui ne nous intéressent pas ici. Ces constantes ne doivent plus être utilisées mais il est possible que vous les rencontriez toujours sur certains sites.</p>
+<p>L’un des intérêts majeurs du DOM et des nœuds va être qu’on va pouvoir se déplacer de nœuds en nœuds pour manipuler des éléments en utilisant le JavaScript.</p>
+
+<font color="#FF4500" size="5"><h2>
+Les interfaces composant le DOM
+</h2></font>
+<p>Ce qu’on appelle <b>« DOM »</b> est en fait un ensemble d’interfaces qui vont pouvoir fonctionner ensemble et nous permettre notamment d’accéder à et de manipuler divers éléments de nos documents en JavaScript.</p>
+<p>Pour vous donner un ordre d’idée de la complexité du DOM HTML, celui-ci est composé de plus de <b>40</b> interfaces <b>« de base »</b> et la plupart de ces interfaces sont-elles mêmes composées d’autres interfaces.</p>
+<p>Il est bien évidemment hors de question d’étudier chacune de ces interfaces en détail mais il reste bon de comprendre qu’il existe une vraie complexité derrière les outils que nous allons utiliser et que ces interfaces sont justement de merveilleux outils en soi pour cacher la complexité des opérations réalisées en arrière-plan.</p><br><br>
+
+
+<font color="#FF4500" size="5"><h3>
+Parmi les interfaces du DOM, quelques-unes vont particulièrement nous intéresser : 
+</h3></font>
+<p>L’interface <b>Window</b> qu’on a déjà étudié et qui est liée au DOM ;<br>
+L’interface <b>Event</b> qui représente tout événement qui a lieu dans le DOM (nous allons définir précisément ce qu’est un évènement dans la suite de cette partie) ;<br>
+L’interface <b>EventTarget</b> qui est une interface que vont implémenter les objets qui peuvent recevoir des évènements ;<br>
+L’interface <b>Node</b> qui est l’interface de base pour une grande partie des objets du DOM ;<br>
+L’interface <b>Document</b> qui représente le document actuel et qui va être l’interface la plus utilisée ;<br>
+L’interface <b>Element</b> qui est l’interface de base pour tous les objets d’un document ;<br>
+</p>
+<p>En plus de ces interfaces incontournables, on pourra également citer les interfaces (mixin)<b> ParentNode, ChildNode, NonDocumentTypeChildNode, HTMLElement et NonElementParentNode</b> qui vont également nous fournir des propriétés et méthodes intéressantes.</p>
+<p><b>Note :</b> Le JavaScript est un langage à héritage simple. Cela signifie qu’une interface ne peut hériter que d’une seule autre interface. Les mixin sont des sortes d’interfaces qui permettent de contourner cette limitation : une interface ne pourra hériter que d’une autre interface mais pourra également implémenter plusieurs mixin.</p>
+<p>Pour bien vous situer dans la hiérarchie du <b>DOM</b> et entre ces interfaces, vous pouvez retenir que : </p>
+
+<p>L’interface EventTarget est l’interface parent de Node et donc Node hérite (des propriétés et méthodes) de l’interface EventTarget ;<br>
+L’interface Node est le parent des interfaces Document et Element qui héritent donc de Node (et donc par extension également de EventTarget). De plus, Document et Element implémentent les mixin ParentNode et ChildNode ;<br>
+L’interface Element implémente également le mixin NonDocumentTypeChildNode ;<br>
+L’interface Document implémente également le mixin NonElementParentNode ;<br>
+L’interface HTMLElement hérite de l’interface Elem</p>
+
+<p>Comme les deux interfaces Document et Element héritent de ou implémentent une grande partie des autres interfaces, ce seront souvent nos interfaces de référence à travers lesquelles nous allons utiliser la plupart des propriétés et des méthodes des interfaces citées ci-dessus.</p>
+<p>Dans la suite de cette partie, plutôt que de vous présenter les interfaces unes à une avec leurs propriétés et leurs méthodes, nous allons utiliser une approche plus pratique et grouper les propriétés et méthodes selon le type de données qu’elles contiennent et les opérations qu’elles permettent d’accomplir.</p>
+<p>Cela rendra la partie beaucoup plus dynamique et agréable à suivre que les parties précédentes qui étaient plus théoriques et abstraites (mais qui nous ont servi à définir des bases solides et pour lesquelles il était très compliqué d’utiliser cette même approche pratique : il y a un temps pour tout !).</p>
+
+<font color="#FF4500" size="5"><h2>
+CONCLUSION :
+</h2></font>
+<p>En résumé, nous avons vu qu'au moyen de JavaScript, nous pouvons inspecter et interférer avec le document que le navigateur affiche via une structure de données appelée DOM. Cette structure de données représente le modèle de navigateur du document, et grâce à JavaScript nous pouvons la modifier pour changer notre page.
+
+Ce DOM est organisé sous forme d'arbre, dans lequel les éléments sont organisés hiérarchiquement selon la structure du document. Les objets qui représentent des éléments ont des propriétés qui peuvent être utilisées pour naviguer dans cette arborescence.
+
+Nous pouvons modifier complètement notre page et son contenu, ou certains éléments que nous spécifions, ainsi que nous pouvons varier la façon dont ce contenu est affiché en manipulant le style d'un élément directement via la propriété style.
+</p>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<script>
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+
+  script.addEventListener("load", function (event) {
+    const config = {
+      name: "Video SDK Live",
+      meetingId: "prebuilt",
+      apiKey: "<YOUR API KEY>",
+
+      containerId: null,
+
+      micEnabled: true,
+      webcamEnabled: true,
+      participantCanToggleSelfWebcam: true,
+      participantCanToggleSelfMic: true,
+
+      chatEnabled: true,
+      screenShareEnabled: true,
+    };
+
+    const meeting = new VideoSDKMeeting();
+    meeting.init(config);
+  });
+
+  script.src =
+    "https://sdk.videosdk.live/rtc-js-prebuilt/0.1.23/rtc-js-prebuilt.js";
+  document.getElementsByTagName("head")[0].appendChild(script);
+</script>

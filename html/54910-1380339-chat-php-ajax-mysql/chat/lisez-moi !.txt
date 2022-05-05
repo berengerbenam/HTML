@@ -1,0 +1,6 @@
+Bonjour !
+Pour commencer, importer le fichier chat.sql dans votre base de données puis ouvrez
+le fichier "functions.php" qui se trouve dans le dossier script et indiquer vos données de
+connexion MySQL aux lignes 3,4 et 5.
+Voilà c'est installé !
+

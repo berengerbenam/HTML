@@ -1,0 +1,3 @@
+Voici un simple fonction ajouter au panier
+
+1)Créer une base de données nommée cart et importer le fichier sql 

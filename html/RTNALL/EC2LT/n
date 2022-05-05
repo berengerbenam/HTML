@@ -1,0 +1,16 @@
+<!--style type="text/css" -->
+
+                h1 {
+                        background-color: #FFFFFF;
+                        color: white;
+                        text-align:center;
+                        backgroung-color:red;
+                        padding: 25px;
+                        border : 5px dashed yellow;
+                        width:800px;
+                        height:50px;
+                        margin-left:30%;
+
+
+                }
+       <!--/style-->

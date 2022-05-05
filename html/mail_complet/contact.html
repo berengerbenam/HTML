@@ -1,0 +1,442 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+
+<TITLE></TITLE>
+
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}//-->
+</script>
+
+
+<!--scipt pour le masque du numéro téléphone, date et mail-->
+<!--placer le scipt "mask.js" à la racine du site (ou changer src="" en notant dans les guillemets url)-->
+<script language="JavaScript1.2" src="masks.js"></script>
+
+
+<script language="JavaScript1.2">
+	<!--//
+	var bShowTests = true;
+	var oResults = {
+		"browser": {
+			"userAgent": navigator.userAgent,
+			"appName": navigator.appName,
+			"appVersion": navigator.appVersion,
+			"appCodeName": navigator.appCodeName
+		},
+		"string": [],
+		"date": [],
+		"number": []
+	};
+	
+	function writeOutput(v){
+		document.write(v + "<br />");
+	}
+	
+	function updateResults(m, v, e){
+		if( m.value != e ){
+			var i = oResults[m.type].length;
+			oResults[m.type][i] = {
+				"supplied": v,
+				"value": m.value,
+				"expected": e,
+				"error": m.error.join("|"),
+				"mask": m.mask
+			};
+		}
+	}
+	
+	function postResults(){
+		if( oResults.string.length + oResults.date.length + oResults.number.length == 0 ) return alert("No errors to report!");
+		// form object
+		var oForm = document.frmReport;
+		// create serializer object
+		var oSerializer = new WddxSerializer();
+		// serialize WDDX packet
+		oForm.wddx.value = oSerializer.serialize(oResults);
+		oForm.submit();
+	}
+
+	function stringTest(v, m, e){
+		if( !bShowTests ) return false;
+		var oMask = new Mask(m);
+		
+		writeOutput("<b>mask:</b> "  + m);
+		writeOutput("<b>string:</b> " + v);
+		var n = oMask.format(v);
+		if( e != n ) document.write("<font color=red>");
+		writeOutput("<b>result:</b> " + n);
+		writeOutput("<b>expected:</b> " + e);
+		if( e != n ) document.write("</font>");
+		writeOutput("<b>error:</b> " + ((oMask.error.length == 0) ? "n/a" : oMask.error.join("<br>")));
+		writeOutput("");
+		updateResults(oMask, v, e);
+	}
+
+	function numberTest(v, m, e){
+		if( !bShowTests ) return false;
+		var oMask = new Mask(m, "number");
+
+		writeOutput("<b>mask:</b> "  + m);
+		writeOutput("<b>string:</b> " + v);
+		var n = oMask.format(v);
+		if( e != n ) document.write("<font color=red>");
+		writeOutput("<b>result:</b> " + n);
+		writeOutput("<b>expected:</b> " + e);
+		if( e != n ) document.write("</font>");
+		writeOutput("<b>error:</b> " + ((oMask.error.length == 0) ? "n/a" : oMask.error.join("<br>")));
+		writeOutput("");
+		updateResults(oMask, v, e);
+	}
+
+	function dateTest(v, m, e){
+		if( !bShowTests ) return false;
+		var oMask = new Mask(m, "date");
+		writeOutput("<b>mask:</b> "  + m);
+		writeOutput("<b>string:</b> " + v);
+		var n = oMask.format(v);
+		if( e != n ) document.write("<font color=red>");
+		writeOutput("<b>result:</b> " + n);
+		writeOutput("<b>expected:</b> " + e);
+		if( e != n ) document.write("</font>");
+		writeOutput("<b>error:</b> " + ((oMask.error.length == 0) ? "n/a" : oMask.error.join("<br>")));
+		writeOutput("");
+		updateResults(oMask, v, e);
+	}
+
+function init(){
+// Attention Remplacer tous les "monform" par le nom de votre formulaire
+document.monform.reset();
+
+		// Création du masque de téléphone ##.##.##.##.##
+		oStringMask = new Mask("##.##.##.##.##", "string");
+		
+		 // Associer la fonction oStringMask aux 2 champs "portable" et "fixe"
+		oStringMask.attach(document.monform.portable);
+		oStringMask.attach(document.monform.fixe);
+		
+		// Création du masque de date jj/mm/aaaa
+		oDateMask = new Mask("dd/mm/yyyy", "date");
+		
+		 // Associer la fonction oDateMask au champs "date"
+		oDateMask.attach(document.monform.date);
+		
+		// Création du masque number "$#,###.00"
+		oNumberMask = new Mask("$#,###.00", "number");
+		
+		 // Associer la fonction oNumberMask au champs "number"
+		oNumberMask.attach(document.monform.number);
+	}
+	//-->
+	</script>
+	
+	<script	type="text/javascript"
+			src="ConForm.js">
+			
+</script>
+			
+<script	type="text/javascript">
+function ok()
+{ 
+	alert ("tous les contrôles sont bons"); 
+}
+</script>
+
+
+<!--script boutons actif/masqué-->
+<script language="Javascript">
+// ==================
+//	Activations - Désactivations
+// ==================
+function GereControle(Controleur, Controle, Masquer) {
+var objControleur = document.getElementById(Controleur);
+var objControle = document.getElementById(Controle);
+	if (Masquer=='1')
+		objControle.style.visibility=(objControleur.checked==true)?'visible':'hidden';
+	else
+		objControle.disabled=(objControleur.checked==true)?false:true;
+	return true;}
+
+</script>
+
+<script language="JavaScript">
+<!--
+//PLF-http://www.jejavascript.net/
+function valider() {
+var form_err = " "
+
+//Remplacer partout dans ce script monform par le nom de votre formulaire
+if ( document.monform.mail.value.length < 1) {
+form_err = "Email invalide ! - ";
+}
+if ( document.monform.mail.value == "votrenom@mail.com") {
+form_err = "Email invalide ! - ";
+}
+var verim = 0;
+for (i=1; i<document.monform.mail.value.length -4; i++) {
+if ( document.monform.mail.value.charAt(i) == "@") {
+verim = 1;
+}} 
+if ( verim == 0) {
+form_err = "Email invalide ! - \n";
+} 
+if ( document.monform.nom.value.length < 1) {
+form_err += "Veuillez entrer votre Nom. - \n";
+}
+if ( document.monform.prenom.value.length < 1) {
+form_err += "Veuillez entrer votre Prenom. - \n";
+} 
+if ( document.monform.ville_actuelle.value.length < 1) {
+form_err += "Veuillez entrer votre ville. - \n";
+} 
+//--> if(!form.case_a_cocher.checked) alert('Vous devez cocher la case !');} 
+
+if ( form_err != " ") {
+alert(form_err);
+return false;
+}
+return true 
+}
+//-->
+</script>
+
+</head>
+
+<!-- initialise le script pour les masques telephone, date, mail et nombre et pour le controle d'affichage des champs-->
+
+<body onLoad="GereControle('derniere_classe','totalite','1'); GereControle('derniere_classe','arret','1'); GereControle('derniere_classe','derniere','1'); init(); ">   
+ 
+<div align="center"><span>&nbsp;FICHE CONTACT </span></div>
+
+<form action="envoi.php" method="post" name="monform" onSubmit="return (ConForm(this));">
+
+<table width="599" border=0 cellpadding=0 cellspacing=0>
+<tbody><tr bordercolor="1"><td><div align="center" >* Champs Obligatoires </div></td>
+<td bgcolor="#FFCACA"><div align="center"><strong> Votre identit&eacute; : </strong></div></td></tr>
+		
+<tr bordercolor="1"><td height="22" bgcolor="#E8E8E8"><div align="right">*</div></td>
+<td width="433" colspan="2">
+<input type=radio name="civil" lang="type:radio;erreur:- Merci de renseigner votre situation familiale;erreurfond:red;" value="Mme"/>Mme
+<input type=radio name="civil" value="Mlle"/>Mlle
+<input type=radio name="civil" value="Mr"/>Mr</tr>
+	  
+<tr bordercolor="1"><td width=166 align="right" bgcolor="#E8E8E8"> *Nom :</td>
+<td colspan="2"><input size=30 name="nom" lang="erreurfond:#FF0000;mini:2;maxi:30;type:obligatoire;erreur:- Merci de mettre votre Nom" /></tr>
+      
+<tr bordercolor="1"><td width=166 align="right" bgcolor="#E8E8E8"> *Pr&eacute;nom :</td>
+<td><input size=30 name="prenom" lang="nom:;erreurfond:#FF0000;mini:2;	maxi:30;type:obligatoire;erreur:- Merci de mettre votre Pr&eacute;nom"/></tr>
+
+<tr bordercolor="1"><td align="right" bgcolor="#E8E8E8"> *Date de naissance :</td>        
+<td><select name="jour_naissance" lang="erreurfond:#FF0000;type:liste;erreur:- Renseigner votre jour de naissance" size=1>
+<!-- option vide permet de laisser un champ vide en premier --> 
+<option>
+<option>01<option>02<option>03<option>04<option>05<option>06<option>07<option>08<option>09<option>10<option>11
+<option>12<option>13<option>14<option>15<option>16<option>17<option>18<option>19<option>20<option>21<option>22
+<option>23<option>24<option>25<option>26<option>27<option>28<option>29<option>30<option>31
+</option></select>
+		
+<select name="mois_naissance" lang="erreurfond:#FF0000;type:liste;erreur:- Renseigner votre mois de naissance" size=1 >
+<!-- option vide permet de laisser un champ vide en premier --> 
+<option>  
+<option>Janvier<option>F&eacute;vrier<option>Mars<option>Avril<option>Mai<option>Juin<option>Juillet<option>Aout
+<option>Septembre<option>Octobre<option>Novembre<option>D&eacute;cembre
+</option></select>
+			
+<select name="annee_naissance" lang="erreurfond:#FF0000;type:liste;erreur:- Renseigner votre ann&eacute;e de naissance" size=1>
+<!-- option vide permet de laisser un champ vide en premier --> 
+<option>
+<option>1960<option>1961<option>1962<option>1963<option>1964<option>1965<option>1966<option>1967<option>1968
+<option>1969<option>1970<option>1971<option>1972<option>1973<option>1974<option>1975<option>1976<option>1977
+<option>1978<option>1979<option>1980<option>1981<option>1982<option>1983<option>1984<option>1985<option>1986
+<option>1987<option>1988<option>1989<option>1990<option>1991<option>1992<option>1993<option>1994<option>1995
+</option></select></tr>
+
+<tr bordercolor="1"><td align="right" bgcolor="#E8E8E8">Ville de naissance :</td>
+<td><input name="ville_naissance" value="" size=50 maxlength="50" ></tr>
+
+<tr bordercolor="1"><td align="right" bgcolor="#E8E8E8">D&eacute;partement de naissance :</span></td><td><p>
+<select name="departement_naissance" size=1>
+<option selected>Département<option>01 - Ain<option> 02 - Aisne<option> 03 - Allier
+<option> 04 - Alpes de Haute Provence<option> 05 - Hautes Alpes<option> 06 - Alpes Maritimes
+<option> 07 - Ardeche<option> 08 - Ardennes<option> 09 - Ariege<option> 10 - Aube<option> 11 - Aude
+<option> 12 - Aveyron<option> 13 - Bouches du Rhone<option> 14 - Calvados<option> 15 - Cantal
+<option> 16 - Charente<option> 17 - Charente Maritime<option> 18 - Cher<option> 19 - Correze
+<option> 20 - Corse<option> 21 - Cote d'Or<option> 22 - Cotes d'Armor<option> 23 - Creuse
+<option> 24 - Dordogne<option> 25 - Doubs<option> 26 - Drome<option> 27 - Eure<option> 28 - Eure et Loir
+<option> 29 - Finistere<option> 30 - Gard<option> 31 - Haute Garonne<option> 32 - Gers<option> 33 - Gironde
+<option> 34 - Herault<option> 35 - Ille et Vilaine<option> 36 - Indre<option> 37 - Indre et Loire
+<option> 38 - Isere<option> 39 - Jura<option> 40 - Landes<option> 41 - Loir et Cher<option> 46 - Lot
+<option> 47 - Lot et Garonne<option> 48 - Lozere<option> 49 - Maine et Loire<option> 50 - Manche
+<option> 51 - Marne<option> 52 - Haute Marne<option> 53 - Mayenne<option> 54 - Meurthe et Moselle
+<option> 55 - Meuse<option> 56 - Morbihan<option> 57 - Moselle<option> 58 - Nievre<option> 59 - Nord
+<option> 60 - Oise<option> 61 - Orne<option> 62 - Pas de Calais<option> 63 - Puy de Dome
+<option> 64 - Pyrenees Atlantiques<option> 65 - Hautes Pyrenees<option> 66 - Pyrenees Orientales
+<option> 67 - Bas Rhin<option> 68 - Haut Rhin<option> 69 - Rhone<option> 70 - Haute Saone
+<option> 71 - Saone et Loire<option> 72 - Sarthe<option> 73 - Savoie<option> 74 - Haute Savoie
+<option> 75 - Paris<option> 76 - Seine Maritime<option> 77 - Seine et Marne<option> 78 - Yvelines
+<option> 79 - Deux Sevres<option> 80 - Somme<option> 81 - Tarn<option> 82 - Tarn et Garonne<option>83 - Var
+<option> 84 - Vaucluse<option> 85 - Vendee<option> 86 - Vienne<option> 87 - Haute Vienne<option> 88 - Vosges
+<option> 89 - Yonne<option> 90 - Territoire de Belfort<option> 91 - Essonne<option> 92 - Hauts de Seine
+<option> 93 - Seine Saint denis<option> 94 - Val de Marne<option> 95 - Val d'Oise</option>
+</select></p></tr>
+
+<tr bordercolor="1"><td height="24" align="right" bgcolor="#E8E8E8"> Pays de naissance : </span></td>
+<td><select name="pays_naissance" size=1>
+<option selected>Pays<option>France<option>Afghanistan<option>Afrique du Sud<option>Albanie<option>Algérie
+<option>Allemagne<option> Andorre<option>Angola<option>Anguilla<option>Antarctique<option>Antigua-et-Barbuda
+<option>Antilles néerlandaises<option> Arabie saoudite<option>Argentine<option>Arménie<option>Aruba<option>Australie
+<option>Autriche<option>Azerbaïdjan<option> Bénin<option>Bahamas<option>Bahreïn<option>Bangladesh<option>Barbade
+<option>Belau<option>Belgique<option>Belize<option>Bermudes<option>Bhoutan<option>Biélorussie<option>Birmanie
+<option>Bolivie	<option> Bosnie-Herzégovine<option>Botswana<option>Brésil<option>Brunei<option>Bulgarie
+<option>Burkina Faso<option>Burundi<option>Côte d'Ivoire<option>Cambodge<option> Cameroun<option>Canada<option>Cap-Vert
+<option>Chili<option>Chine<option>Chypre<option>Colombie<option>Comores<option>Congo<option> Corée du Nord<option>Corée du Sud
+<option>Costa Rica<option>Croatie<option>Cuba<option>Danemark<option>Djibouti<option>Dominique<option>Égypte
+<option>Émirats arabes unis<option>Équateur<option>Érythrée<option>Espagne<option>Estonie<option>États-Unis<option>Éthiopie
+<option>Finlande<option>France<option>Géorgie<option>Gabon<option>Gambie<option>Ghana<option>Gibraltar<option>Grèce<option>Grenade
+<option>Groenland<option>Guadeloupe<option>Guam<option>Guatemala<option>Guinée<option>Guinée équatoriale<option>Guinée-Bissao
+<option>Guyana<option>Guyane française<option>Haïti<option>Honduras<option>Hong Kong<option>Hongrie<option>Ile Bouvet
+<option>Ile Christmas<option>Ile Norfolk<option>Iles Cayman<option>Iles Cook<option>Iles Féroé<option>Iles Falkland
+<option>Iles Fidji<option>Iles Géorgie du Sud et Sandwich du Sud<option>Iles Heard et McDonald<option>Iles Marshall
+<option>Iles Pitcairn<option>Iles Salomon<option>Iles Svalbard et Jan Mayen<option>Iles Turks-et-Caicos
+<option>Iles Vierges américaines<option> Iles Vierges britanniques<option>Iles des Cocos (Keeling)
+<option>Iles mineures éloignées des États-Unis<option>Inde<option>Indonésie<option>Iran<option>Iraq<option>Irlande<option>Islande
+<option>Israël<option>Italie<option>Jamaïque<option>Japon<option>Jordanie<option>Kazakhstan<option>Kenya<option>Kirghizistan
+<option>Kiribati<option>Koweït<option>Laos<option>Lesotho<option>Lettonie<option>Liban<option>Liberia<option>Libye
+<option>Liechtenstein<option>Lituanie<option>Luxembourg<option>Macao<option>Madagascar<option>Malaisie<option>Malawi<option>Maldives
+<option>Mali<option>Malte<option>Mariannes du Nord<option>Maroc<option>Martinique<option>Maurice<option>Mauritanie<option>Mayotte
+<option>Mexique<option>Micronésie<option>Moldavie<option>Monaco<option>Mongolie<option>Montserrat<option>Mozambique<option>Népal
+<option>Namibie<option>Nauru<option>Nicaragua<option>Niger<option>Nigeria<option>Nioué<option>Norvège<option>Nouvelle-Calédonie
+<option>Nouvelle-Zélande<option>Oman<option>Ouganda<option>Ouzbékistan<option>Pérou<option>Pakistan<option>Panama
+<option>Papouasie-Nouvelle-Guinée Paraguay<option>Pays-Bas<option>Philippines<option>Pologne<option>Polynésie française
+<option>Porto Rico<option>Portugal<option> Qatar<option>République centrafricaine<option>République démocratique du Congo
+<option>République dominicaine<option>République tchèque<option>Réunion<option>Roumanie<option>Royaume-Uni<option>Russie
+<option>Rwanda<option>Sénégal<option>Sahara occidental <option>Saint-Christophe-et-Niévès<option>Saint-Marin
+<option>Saint-Pierre-et-Miquelon<option>Saint-Siège<option>Saint-Vincent-et-les-Grenadines<option>Sainte-Hélène<option>Sainte-Lucie
+<option>Salvador<option>Samoa<option>Samoa américaines<option>Sao Tomé-et-Principe<option>Seychelles<option>Sierra Leone
+<option>Singapour<option>Slovénie<option>Slovaquie<option>Somalie<option>Soudan<option>Sri Lanka<option>Suède<option>Suisse
+<option>Suriname<option>Swaziland<option>Syrie<option>Taïwan<option>Tadjikistan<option>Tanzanie<option>Tchad
+<option>Terres australes françaises<option>Territoire britannique de l'Océan Indien<option>Thaïlande<option>Timor Oriental
+<option>Togo<option>Tokélaou<option>Tonga<option>Trinité-et-Tobago<option>Tunisie<option>Turkménistan<option>Turquie<option>Tuvalu
+<option>Ukraine<option>Uruguay<option>Vanuatu<option>Venezuela<option>Viêt Nam<option>Wallis-et-Futuna<option>Yémen
+<option>Yougoslavie<option>Zambie<option>Zimbabwe<option>ex-République yougoslave de Macédoine
+</option></select></tr></tbody></table>
+	  
+<table width="597" border=0 cellpadding=0 cellspacing=0><tbody><tr>
+<td><div align="center"><span>* Champs Obligatoires </span></div></td>
+<td bgcolor="#FFCACA"><div align="center"><b> Vos coordonn&eacute;es : </b></div></td><br></tr>
+
+<tr><td width=166 align="right" bgcolor="#E8E8E8">*Num&eacute;ro :</td>
+<td width="431" colspan="2" ><input size=3 name="numero" lang="nom:;erreurfond:#FF0000;mini:1;	maxi:3;type:obligatoire;erreur:- Merci de mettre le num&eacute;ro de votre voie" maxlength="3"/>
+
+*Type Voie :
+<select name="voie" lang="erreurfond:#FF0000;type:liste;erreur:- Renseigner le type de voie" size=1 >
+<option>  
+<option>Avenue<option>Boulevard<option>Chemin<option>Faubourg<option>Impasse<option>Hameau<option>Lieu-dit
+<option>Lotissement<option>Place<option>Quai<option>Route<option>Rue<option>Square
+</option></select></tr>
+
+<tr><td width=166 align="right" bgcolor="#E8E8E8"> *Adresse :</td><td><p>
+<input name="adresse" value="" lang="nom:;erreurfond:#FF0000;mini:1;	maxi:50;type:obligatoire;erreur:- Merci de mettre votre adresse" size=50 maxlength="50"/></p></tr>
+
+<tr><td width=166 align="right" bgcolor="#E8E8E8"> *Code Postal :</td><td><p>
+<input size=5 name="code_postal" lang="nom:;erreurfond:#FF0000;mini:1;maxi:5;type:obligatoire;erreur:- Merci de mettre votre code postal" maxlength="5" /></p></tr>
+
+<tr><td align="right" bgcolor="#E8E8E8">*Ville :</td><td>
+<input name="ville_actuelle" value="" size=50 lang="nom:;erreurfond:#FF0000;mini:1;	maxi:50;type:obligatoire;erreur:- Merci de mettre votre ville" maxlength="50"/></tr>
+
+<tr><td align="right" bgcolor="#E8E8E8"> T&eacute;l&eacute;phone Fixe : </td><td><p>
+<input type="text" name="fixe" value="" /></p></tr>
+
+<tr><td align="right" bgcolor="#E8E8E8"> T&eacute;l&eacute;phone Portable : </td><td><p>
+<input type="text" name="portable" value="" />
+</p></tr>
+
+<tr><td align="right" bgcolor="#E8E8E8"> Adresse Mail :</td><td><p>
+<input name="mail" value="" lang="type:mail;erreur:- Merci de mettre une adresse mail valide" size=50 maxlength="50">
+</p></tr></tbody></table>
+
+<table width="597" border=0 cellpadding=0 cellspacing=0><tbody>
+<tr><td><div align="center"><span>* Champs Obligatoires </span> </div>
+
+<td bgcolor="#FFCACA"><div align="center"><b> Votre scolarit&eacute; actuelle : </b> </div></td><br></tr>
+<tr><td width=163 height="28" bgcolor="#E8E8E8"><div align="right"> *Classe fr&eacute;quent&eacute;e : </div></td>
+<td>
+<input type="radio" id="classe_actuelle" name="scolarite" value="Classe fr&eacute;quent&eacute;e actuellement"
+onClick="GereControle('derniere_classe','totalite','1');GereControle('derniere_classe','arret','1');GereControle('derniere_classe','derniere','1');" lang="type:radio;erreur:- Merci de renseigner votre scolarit&eacute; actuelle;erreurfond:red;"/>
+          
+Classe fr&eacute;quent&eacute;e actuellement <br>
+<input type="radio" id="derniere_classe" name="scolarite" value="Derni&egrave;re Classe fr&eacute;quent&eacute;e"
+onClick="GereControle('derniere_classe','totalite','1');GereControle('derniere_classe','arret','1');GereControle('derniere_classe','derniere','1');" >
+
+Derni&egrave;re classe fr&eacute;quent&eacute;e</td>
+<tr><td width=163 height="50" bgcolor="#E8E8E8"></td>
+<td><p align="center">
+<select id="origine_scolaire" name="origine_scolaire" lang="erreurfond:#FF0000;type:liste;erreur:- Mettre votre classe fr&eacute;quent&eacute;e">
+<option></option>
+<option style="color:#990000;background-color:#FFFFC1">CLASSES COLLEGE</option>
+<option>... 6&egrave;me</option><option>... 5&egrave;me</option><option>... 4&egrave;me</option><option>... 3&egrave;me</option>
+<option style="color:#990000;background-color:#FFFFC1">CLASSES LYCEE GENERAL/TECHNO</option>
+<option>... Seconde</option><option>... 1&egrave;re</option><option>... Terminale</option>
+<option style="color:#990000;background-color:#FFFFC1">CLASSES PROFESSIONNELLES</option>
+<option>... 1&egrave;re ann&eacute;e CAP</option><option>... 1&egrave;re ann&eacute;e BEP</option>
+<option>.. Terminale CAP</option><option>.. Terminale BEP</option><option>... Bac Professionnel</option><option>Autres
+</option></select>
+</p>
+<p>Si Autres, Pr&eacute;cisez :
+<input type="text" name="autres" maxlength="50" size="50" ></p></tr>
+<tr><td width=163 height="66" bgcolor="#E8E8E8"></td>
+
+<td><p><span id="derniere" >Ann&eacute;e
+<input type="text" name="derniere_annee" maxlength="4" size="4" >
+<br>
+</span> <span id="totalite"> 
+<input type="radio"  id="totalite" name="scolarite_actuelle" value="en totalit&eacute; en">
+Classe fr&eacute;quent&eacute;e en totalit&eacute; <br />
+<input type="radio" id="arret" name="scolarite_actuelle" value="arr&ecirc;t&eacute;e en cours d'ann&eacute;e en">
+Arr&ecirc;t de la scolarit&eacute; en cours d'ann&eacute;e &nbsp;&nbsp;</span></p>
+</tr></tbody></table>
+
+<table width="597" height="132" border=0 cellpadding=0 cellspacing=0>
+<tbody><tr><td height="19" align="right"><div align="center"></div>
+<td bgcolor="#FFCACA"><div align="center"><b> Votre Demande : </b> </div></td><br></tr>
+
+<tr><td width=166 height="63" align="right" bgcolor="#E8E8E8"> Documentation : </td>
+<td><input	type="checkbox" name="documentation" value="demande de documentation"
+onClick="GereControle('derniere_classe','totalite','1');GereControle('derniere_classe','arret','1');GereControle('derniere_classe','derniere','1');" >
+
+Une demande de documentation<br>
+<input type="checkbox" name="documentation_deux" value="demande de liste de ma&icirc;tres d'apprentissage"
+onClick="GereControle('derniere_classe','totalite','1');GereControle('derniere_classe','arret','1');GereControle('derniere_classe','derniere','1');" >
+Vous souhaitez que l'on vous envoie une liste de ma&icirc;tres d'apprentissage</td>
+<tr><td height="24" align="right" bgcolor="#E8E8E8"></td>
+<td><p> Votre demande conserne quelle ann&eacute;e scolaire ?
+<select id="annee_scolaire" name="annee_scolaire">
+<option>2007/2008</option><option>2008/2009</option><option>2009/2010
+</option></select>
+</span></p></tr>
+
+<tr><td height="7" align="right" bgcolor="#E8E8E8"> Formations souhait&eacute;es : </td>
+<td>
+<select name="choix_un">
+<option></option>
+<option style="color:#990000;background-color:#FFFFC1">BOUCHER</option>
+<option>...CAP Boucher</option><option>...BEP Boucher</option>
+
+<option style="color:#990000;background-color:#FFFFC1">COIFFURE</option>
+<option>...CAP Coiffure</option><option>...MC Coiffure</option><option>....BP Coiffure</option>
+
+</select></tr></tbody></table>
+
+<p align="center"><span> Observations ou Remarques :</span><br>
+<textarea name="observations" cols="50" rows="5"></textarea>
+</p><p align="center"><br>
+
+<input name="submit" type="submit" value=" Envoyer ">
+<input name="reset" type="reset" value=" Annuler " ><br></p>
+
+</form>
+
+</BODY></HTML>

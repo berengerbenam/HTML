@@ -1,0 +1,15 @@
+<html>
+<head>
+<title>je suis une fonction en js</title>
+</head>
+<body>
+	<input type="text" id="nombre">
+        <input type="button" value="Carre de nombre" onclick="calculfonction();">
+	<script>
+		function         <input type="text" id="nombre">
+
+	</script>
+
+</body>
+
+</html>
